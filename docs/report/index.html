@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>Decoupling or Illusion? Analysing Emission Intensity, Economic Growth, and Sectoral Energy Transitions in India (2000–2022) – Decoupling or Illusion?</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,6 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
+<link rel="stylesheet" href="../report/style.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -116,8 +119,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Decoupling or Illusion?</span>
     </a>
@@ -188,7 +189,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>This section will be written soon.</p>
+<p>Economic growth and carbon emissions have historically moved together. As countries industrialise, they consume more energy, burn more fossil fuels, and emit more greenhouse gases. The central challenge of sustainable development is breaking this relationship, growing economically while reducing or stabilising emissions.</p>
+<p>India presents a particularly compelling case for this analysis. As the world’s fifth largest economy and third largest emitter of CO2 during the study period, India’s development trajectory carries significant implications for global climate outcomes. India has committed under its Nationally Determined Contributions (NDCs) to reduce the emissions intensity of its GDP by 45% by 2030 relative to 2005 levels, an ambitious target that assumes a fundamental decoupling of economic activity from carbon output.</p>
+<p>Yet the nature of this decoupling remains contested. India’s economy underwent a structural shift toward services during 2000 to 2022, a sector significantly less energy intensive than manufacturing or agriculture. This raises a critical question: is the observed reduction in emission intensity a genuine result of cleaner energy and greater efficiency, or is it a statistical artifact of economic restructuring?</p>
+<p>This study investigates this question rigorously using three complementary analytical frameworks. First, the Tapio decoupling index is applied to classify the year by year relationship between GDP growth and CO2 emissions from 2000 to 2022. Second, the Log Mean Divisia Index (LMDI) decomposition method is used to isolate the specific drivers of emission changes, separating the effects of economic activity, sectoral structure, energy intensity, and energy mix. Third, the Environmental Kuznets Curve (EKC) hypothesis is tested to assess whether India follows the theoretical inverted U relationship between income and emissions, and to estimate whether a peak emissions point is approaching.</p>
+<p>Together these analyses provide a comprehensive and evidence based assessment of whether India’s growth was genuinely decoupling from its carbon footprint during the study period, or whether the appearance of progress masks deeper structural challenges.</p>
 
 
 <!-- -->
@@ -655,7 +660,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>This section will be written soon.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Economic growth and carbon emissions have historically moved together. </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>As countries industrialise, they consume more energy, burn more fossil </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>fuels, and emit more greenhouse gases. The central challenge of </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>sustainable development is breaking this relationship, growing </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>economically while reducing or stabilising emissions.</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>India presents a particularly compelling case for this analysis. As the </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>world's fifth largest economy and third largest emitter of CO2 during </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>the study period, India's development trajectory carries significant </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>implications for global climate outcomes. India has committed under its </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Nationally Determined Contributions (NDCs) to reduce the emissions </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>intensity of its GDP by 45% by 2030 relative to 2005 levels, an </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ambitious target that assumes a fundamental decoupling of economic </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>activity from carbon output.</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>Yet the nature of this decoupling remains contested. India's economy </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>underwent a structural shift toward services during 2000 to 2022, a </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>sector significantly less energy intensive than manufacturing or </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>agriculture. This raises a critical question: is the observed reduction </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>in emission intensity a genuine result of cleaner energy and greater </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>efficiency, or is it a statistical artifact of economic restructuring?</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>This study investigates this question rigorously using three </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>complementary analytical frameworks. First, the Tapio decoupling index </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>is applied to classify the year by year relationship between GDP growth </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>and CO2 emissions from 2000 to 2022. Second, the Log Mean Divisia </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>Index (LMDI) decomposition method is used to isolate the specific </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>drivers of emission changes, separating the effects of economic </span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>activity, sectoral structure, energy intensity, and energy mix. Third, </span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>the Environmental Kuznets Curve (EKC) hypothesis is tested to assess </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>whether India follows the theoretical inverted U relationship between </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>income and emissions, and to estimate whether a peak emissions point </span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>is approaching.</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>Together these analyses provide a comprehensive and evidence based </span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>assessment of whether India's growth was genuinely decoupling from its </span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>carbon footprint during the study period, or whether the appearance of </span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>progress masks deeper structural challenges.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
