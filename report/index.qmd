@@ -115,3 +115,92 @@ This study addresses all three gaps by applying a unified analytical
 framework to the full 2000 to 2022 period, using the most recent 
 available data from EDGAR, the World Bank, and the Central Electricity 
 Authority of India.
+
+# Methodology
+
+## The Tapio Decoupling Index
+
+The Tapio decoupling index, introduced by Tapio (2005), measures the 
+elasticity of CO2 emissions with respect to GDP growth on a year by 
+year basis. Unlike earlier OECD decoupling measures, the Tapio index 
+is not sensitive to the choice of base year, making it more robust for 
+longitudinal analysis. The index is calculated as follows:
+
+$$e = \frac{\%\Delta CO_2}{\%\Delta GDP} = \frac{(CO_{2,t} - CO_{2,t-1})/CO_{2,t-1}}{(GDP_t - GDP_{t-1})/GDP_{t-1}}$$
+
+Where $e$ is the Tapio decoupling index, $CO_{2,t}$ is total CO2 
+emissions in year $t$, and $GDP_t$ is real GDP in year $t$. Based on 
+the value of $e$, each year is classified into one of eight decoupling 
+states. The three most relevant states for this study are strong 
+decoupling ($e < 0$, GDP growing), weak decoupling ($0 < e < 0.8$, 
+GDP growing), and expansive negative coupling ($e > 1.2$, GDP growing), 
+representing the best, moderate, and worst case scenarios respectively 
+for India's emissions trajectory.
+
+## LMDI Decomposition
+
+The Log Mean Divisia Index (LMDI) decomposition method, developed by 
+Ang (2004), is used to identify the specific drivers of changes in 
+India's CO2 emissions over the study period. LMDI is preferred over 
+earlier decomposition methods because it produces an exact decomposition 
+with no unexplained residual term.
+
+Total CO2 emissions are expressed as the product of four factors across 
+sectors:
+
+$$C = \sum_{i} GDP \times \frac{GDP_i}{GDP} \times \frac{E_i}{GDP_i} \times \frac{C_i}{E_i}$$
+
+Where $GDP$ is total real output, $GDP_i/GDP$ is the share of sector 
+$i$ in total output representing the structure effect, $E_i/GDP_i$ is 
+energy intensity of sector $i$ representing the intensity effect, and 
+$C_i/E_i$ is the emission factor of sector $i$ representing the 
+emission factor effect. The total change in emissions between any two 
+years is then decomposed as:
+
+$$\Delta C = \Delta C_{activity} + \Delta C_{structure} + \Delta C_{intensity} + \Delta C_{emission factor}$$
+
+Each component is calculated using the LMDI additive formula:
+
+$$\Delta V = \sum_{i} L(V_{i}^{T}, V_{i}^{0}) \ln \left(\frac{x_{i,k}^{T}}{x_{i,k}^{0}}\right)$$
+
+Where $L(V_{i}^{T}, V_{i}^{0})$ is the logarithmic mean of emissions 
+in the base and target years, defined as:
+
+$$L(A, B) = \frac{A - B}{\ln A - \ln B}$$
+
+## The Environmental Kuznets Curve
+
+The Environmental Kuznets Curve (EKC) hypothesis proposes that the 
+relationship between per capita income and environmental degradation 
+follows an inverted U shape. As income rises from low levels, emissions 
+initially increase due to industrialisation. Beyond a certain income 
+threshold, structural change toward services, greater demand for 
+environmental quality, and access to cleaner technologies cause 
+emissions to decline.
+
+To test the EKC hypothesis for India over the period 2000 to 2022, the 
+following quadratic regression model is estimated:
+
+$$CO_{2,t} = \alpha + \beta_1 Y_t + \beta_2 Y_t^2 + \beta_3 X_t + \varepsilon_t$$
+
+Where $CO_{2,t}$ is per capita CO2 emissions in year $t$, $Y_t$ is 
+real GDP per capita, $Y_t^2$ is the squared term of GDP per capita, 
+and $X_t$ represents a vector of control variables including energy 
+intensity and renewable energy share. The EKC hypothesis is confirmed 
+if $\beta_1 > 0$ and $\beta_2 < 0$, both statistically significant. 
+The income turning point is then estimated as:
+
+$$Y^* = -\frac{\beta_1}{2\beta_2}$$
+
+## Data Sources
+
+All data used in this study are drawn from publicly available 
+institutional sources. CO2 and GHG emission data are obtained from the 
+EDGAR (Emissions Database for Global Atmospheric Research) database 
+maintained by the European Commission Joint Research Centre. GDP and 
+GDP per capita data in constant 2015 USD are sourced from the World 
+Bank World Development Indicators. Sectoral energy consumption and 
+electricity generation data are obtained from the Central Electricity 
+Authority of India and the International Energy Agency. The study 
+period covers 2000 to 2022, representing the most complete and 
+consistent data available across all sources at the time of writing.

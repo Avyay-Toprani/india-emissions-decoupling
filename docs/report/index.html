@@ -108,6 +108,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../report/style.css">
 </head>
@@ -155,6 +184,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#the-decoupling-debate-in-developing-economies" id="toc-the-decoupling-debate-in-developing-economies" class="nav-link" data-scroll-target="#the-decoupling-debate-in-developing-economies"><span class="header-section-number">2.1</span> The Decoupling Debate in Developing Economies</a></li>
   <li><a href="#existing-studies-on-india" id="toc-existing-studies-on-india" class="nav-link" data-scroll-target="#existing-studies-on-india"><span class="header-section-number">2.2</span> Existing Studies on India</a></li>
   <li><a href="#the-gap-this-study-fills" id="toc-the-gap-this-study-fills" class="nav-link" data-scroll-target="#the-gap-this-study-fills"><span class="header-section-number">2.3</span> The Gap This Study Fills</a></li>
+  </ul></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology"><span class="header-section-number">3</span> Methodology</a>
+  <ul class="collapse">
+  <li><a href="#the-tapio-decoupling-index" id="toc-the-tapio-decoupling-index" class="nav-link" data-scroll-target="#the-tapio-decoupling-index"><span class="header-section-number">3.1</span> The Tapio Decoupling Index</a></li>
+  <li><a href="#lmdi-decomposition" id="toc-lmdi-decomposition" class="nav-link" data-scroll-target="#lmdi-decomposition"><span class="header-section-number">3.2</span> LMDI Decomposition</a></li>
+  <li><a href="#the-environmental-kuznets-curve" id="toc-the-environmental-kuznets-curve" class="nav-link" data-scroll-target="#the-environmental-kuznets-curve"><span class="header-section-number">3.3</span> The Environmental Kuznets Curve</a></li>
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources"><span class="header-section-number">3.4</span> Data Sources</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -218,6 +254,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="2.3" class="anchored" data-anchor-id="the-gap-this-study-fills"><span class="header-section-number">2.3</span> The Gap This Study Fills</h2>
 <p>Despite this body of work, three important gaps remain. First, most existing studies for India either end before 2020 or do not extend to 2022, missing the post-pandemic recovery period which saw significant shifts in both GDP growth and energy demand. Second, no study to our knowledge applies all three frameworks, Tapio decoupling, LMDI decomposition, and EKC regression, together in an integrated analysis for India’s economy as a whole over the 2000 to 2022 period. Third, the role of economic structural change, specifically the expansion of the services sector, as a confounding factor in India’s apparent emission intensity improvements has not been rigorously isolated using decomposition methods at the national level.</p>
 <p>This study addresses all three gaps by applying a unified analytical framework to the full 2000 to 2022 period, using the most recent available data from EDGAR, the World Bank, and the Central Electricity Authority of India.</p>
+</section>
+</section>
+<section id="methodology" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Methodology</h1>
+<section id="the-tapio-decoupling-index" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="the-tapio-decoupling-index"><span class="header-section-number">3.1</span> The Tapio Decoupling Index</h2>
+<p>The Tapio decoupling index, introduced by Tapio (2005), measures the elasticity of CO2 emissions with respect to GDP growth on a year by year basis. Unlike earlier OECD decoupling measures, the Tapio index is not sensitive to the choice of base year, making it more robust for longitudinal analysis. The index is calculated as follows:</p>
+<p><span class="math display">\[e = \frac{\%\Delta CO_2}{\%\Delta GDP} = \frac{(CO_{2,t} - CO_{2,t-1})/CO_{2,t-1}}{(GDP_t - GDP_{t-1})/GDP_{t-1}}\]</span></p>
+<p>Where <span class="math inline">\(e\)</span> is the Tapio decoupling index, <span class="math inline">\(CO_{2,t}\)</span> is total CO2 emissions in year <span class="math inline">\(t\)</span>, and <span class="math inline">\(GDP_t\)</span> is real GDP in year <span class="math inline">\(t\)</span>. Based on the value of <span class="math inline">\(e\)</span>, each year is classified into one of eight decoupling states. The three most relevant states for this study are strong decoupling (<span class="math inline">\(e &lt; 0\)</span>, GDP growing), weak decoupling (<span class="math inline">\(0 &lt; e &lt; 0.8\)</span>, GDP growing), and expansive negative coupling (<span class="math inline">\(e &gt; 1.2\)</span>, GDP growing), representing the best, moderate, and worst case scenarios respectively for India’s emissions trajectory.</p>
+</section>
+<section id="lmdi-decomposition" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="lmdi-decomposition"><span class="header-section-number">3.2</span> LMDI Decomposition</h2>
+<p>The Log Mean Divisia Index (LMDI) decomposition method, developed by Ang (2004), is used to identify the specific drivers of changes in India’s CO2 emissions over the study period. LMDI is preferred over earlier decomposition methods because it produces an exact decomposition with no unexplained residual term.</p>
+<p>Total CO2 emissions are expressed as the product of four factors across sectors:</p>
+<p><span class="math display">\[C = \sum_{i} GDP \times \frac{GDP_i}{GDP} \times \frac{E_i}{GDP_i} \times \frac{C_i}{E_i}\]</span></p>
+<p>Where <span class="math inline">\(GDP\)</span> is total real output, <span class="math inline">\(GDP_i/GDP\)</span> is the share of sector <span class="math inline">\(i\)</span> in total output representing the structure effect, <span class="math inline">\(E_i/GDP_i\)</span> is energy intensity of sector <span class="math inline">\(i\)</span> representing the intensity effect, and <span class="math inline">\(C_i/E_i\)</span> is the emission factor of sector <span class="math inline">\(i\)</span> representing the emission factor effect. The total change in emissions between any two years is then decomposed as:</p>
+<p><span class="math display">\[\Delta C = \Delta C_{activity} + \Delta C_{structure} + \Delta C_{intensity} + \Delta C_{emission factor}\]</span></p>
+<p>Each component is calculated using the LMDI additive formula:</p>
+<p><span class="math display">\[\Delta V = \sum_{i} L(V_{i}^{T}, V_{i}^{0}) \ln \left(\frac{x_{i,k}^{T}}{x_{i,k}^{0}}\right)\]</span></p>
+<p>Where <span class="math inline">\(L(V_{i}^{T}, V_{i}^{0})\)</span> is the logarithmic mean of emissions in the base and target years, defined as:</p>
+<p><span class="math display">\[L(A, B) = \frac{A - B}{\ln A - \ln B}\]</span></p>
+</section>
+<section id="the-environmental-kuznets-curve" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="the-environmental-kuznets-curve"><span class="header-section-number">3.3</span> The Environmental Kuznets Curve</h2>
+<p>The Environmental Kuznets Curve (EKC) hypothesis proposes that the relationship between per capita income and environmental degradation follows an inverted U shape. As income rises from low levels, emissions initially increase due to industrialisation. Beyond a certain income threshold, structural change toward services, greater demand for environmental quality, and access to cleaner technologies cause emissions to decline.</p>
+<p>To test the EKC hypothesis for India over the period 2000 to 2022, the following quadratic regression model is estimated:</p>
+<p><span class="math display">\[CO_{2,t} = \alpha + \beta_1 Y_t + \beta_2 Y_t^2 + \beta_3 X_t + \varepsilon_t\]</span></p>
+<p>Where <span class="math inline">\(CO_{2,t}\)</span> is per capita CO2 emissions in year <span class="math inline">\(t\)</span>, <span class="math inline">\(Y_t\)</span> is real GDP per capita, <span class="math inline">\(Y_t^2\)</span> is the squared term of GDP per capita, and <span class="math inline">\(X_t\)</span> represents a vector of control variables including energy intensity and renewable energy share. The EKC hypothesis is confirmed if <span class="math inline">\(\beta_1 &gt; 0\)</span> and <span class="math inline">\(\beta_2 &lt; 0\)</span>, both statistically significant. The income turning point is then estimated as:</p>
+<p><span class="math display">\[Y^* = -\frac{\beta_1}{2\beta_2}\]</span></p>
+</section>
+<section id="data-sources" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="data-sources"><span class="header-section-number">3.4</span> Data Sources</h2>
+<p>All data used in this study are drawn from publicly available institutional sources. CO2 and GHG emission data are obtained from the EDGAR (Emissions Database for Global Atmospheric Research) database maintained by the European Commission Joint Research Centre. GDP and GDP per capita data in constant 2015 USD are sourced from the World Bank World Development Indicators. Sectoral energy consumption and electricity generation data are obtained from the Central Electricity Authority of India and the International Energy Agency. The study period covers 2000 to 2022, representing the most complete and consistent data available across all sources at the time of writing.</p>
 
 
 <!-- -->
@@ -793,7 +862,96 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>This study addresses all three gaps by applying a unified analytical </span>
 <span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>framework to the full 2000 to 2022 period, using the most recent </span>
 <span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>available data from EDGAR, the World Bank, and the Central Electricity </span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>Authority of India.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>Authority of India.</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="fu"># Methodology</span></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Tapio Decoupling Index</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>The Tapio decoupling index, introduced by Tapio (2005), measures the </span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>elasticity of CO2 emissions with respect to GDP growth on a year by </span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>year basis. Unlike earlier OECD decoupling measures, the Tapio index </span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>is not sensitive to the choice of base year, making it more robust for </span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>longitudinal analysis. The index is calculated as follows:</span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>$$e = \frac{\%\Delta CO_2}{\%\Delta GDP} = \frac{(CO_{2,t} - CO_{2,t-1})/CO_{2,t-1}}{(GDP_t - GDP_{t-1})/GDP_{t-1}}$$</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>Where $e$ is the Tapio decoupling index, $CO_{2,t}$ is total CO2 </span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>emissions in year $t$, and $GDP_t$ is real GDP in year $t$. Based on </span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>the value of $e$, each year is classified into one of eight decoupling </span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>states. The three most relevant states for this study are strong </span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>decoupling ($e &lt; 0$, GDP growing), weak decoupling ($0 &lt; e &lt; 0.8$, </span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>GDP growing), and expansive negative coupling ($e &gt; 1.2$, GDP growing), </span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>representing the best, moderate, and worst case scenarios respectively </span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>for India's emissions trajectory.</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="fu">## LMDI Decomposition</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>The Log Mean Divisia Index (LMDI) decomposition method, developed by </span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>Ang (2004), is used to identify the specific drivers of changes in </span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>India's CO2 emissions over the study period. LMDI is preferred over </span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>earlier decomposition methods because it produces an exact decomposition </span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>with no unexplained residual term.</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>Total CO2 emissions are expressed as the product of four factors across </span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>sectors:</span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>$$C = \sum_{i} GDP \times \frac{GDP_i}{GDP} \times \frac{E_i}{GDP_i} \times \frac{C_i}{E_i}$$</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>Where $GDP$ is total real output, $GDP_i/GDP$ is the share of sector </span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>$i$ in total output representing the structure effect, $E_i/GDP_i$ is </span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>energy intensity of sector $i$ representing the intensity effect, and </span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>$C_i/E_i$ is the emission factor of sector $i$ representing the </span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>emission factor effect. The total change in emissions between any two </span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>years is then decomposed as:</span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>$$\Delta C = \Delta C_{activity} + \Delta C_{structure} + \Delta C_{intensity} + \Delta C_{emission factor}$$</span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>Each component is calculated using the LMDI additive formula:</span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>$$\Delta V = \sum_{i} L(V_{i}^{T}, V_{i}^{0}) \ln \left(\frac{x_{i,k}^{T}}{x_{i,k}^{0}}\right)$$</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>Where $L(V_{i}^{T}, V_{i}^{0})$ is the logarithmic mean of emissions </span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>in the base and target years, defined as:</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>$$L(A, B) = \frac{A - B}{\ln A - \ln B}$$</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Environmental Kuznets Curve</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>The Environmental Kuznets Curve (EKC) hypothesis proposes that the </span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>relationship between per capita income and environmental degradation </span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>follows an inverted U shape. As income rises from low levels, emissions </span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>initially increase due to industrialisation. Beyond a certain income </span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>threshold, structural change toward services, greater demand for </span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>environmental quality, and access to cleaner technologies cause </span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>emissions to decline.</span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>To test the EKC hypothesis for India over the period 2000 to 2022, the </span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>following quadratic regression model is estimated:</span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>$$CO_{2,t} = \alpha + \beta_1 Y_t + \beta_2 Y_t^2 + \beta_3 X_t + \varepsilon_t$$</span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>Where $CO_{2,t}$ is per capita CO2 emissions in year $t$, $Y_t$ is </span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>real GDP per capita, $Y_t^2$ is the squared term of GDP per capita, </span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>and $X_t$ represents a vector of control variables including energy </span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>intensity and renewable energy share. The EKC hypothesis is confirmed </span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>if $\beta_1 &gt; 0$ and $\beta_2 &lt; 0$, both statistically significant. </span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>The income turning point is then estimated as:</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>$$Y^* = -\frac{\beta_1}{2\beta_2}$$</span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Sources</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>All data used in this study are drawn from publicly available </span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a>institutional sources. CO2 and GHG emission data are obtained from the </span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>EDGAR (Emissions Database for Global Atmospheric Research) database </span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a>maintained by the European Commission Joint Research Centre. GDP and </span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>GDP per capita data in constant 2015 USD are sourced from the World </span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a>Bank World Development Indicators. Sectoral energy consumption and </span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>electricity generation data are obtained from the Central Electricity </span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a>Authority of India and the International Energy Agency. The study </span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>period covers 2000 to 2022, representing the most complete and </span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a>consistent data available across all sources at the time of writing.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
