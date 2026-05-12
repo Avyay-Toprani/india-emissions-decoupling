@@ -64,3 +64,11 @@ edgar_sector_india <- edgar_sector_raw %>%
          substance,
          fossil_bio,
          y_2000:y_2022)
+
+
+# ============================================================
+# Save cleaned data to processed folder
+# ============================================================
+
+write_csv(edgar_india, "data/processed/edgar_india_total.csv")
+write_csv(edgar_sector_india, "data/processed/edgar_sector_india.csv")
