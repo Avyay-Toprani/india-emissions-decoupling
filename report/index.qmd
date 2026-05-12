@@ -1,6 +1,6 @@
 ---
 title: "Decoupling or Illusion? Analysing Emission Intensity, Economic Growth, and Sectoral Energy Transitions in India (2000–2022)"
-author: "Your Full Name"
+author: "Avyay Toprani"
 date: today
 ---
 
@@ -44,3 +44,74 @@ Together these analyses provide a comprehensive and evidence based
 assessment of whether India's growth was genuinely decoupling from its 
 carbon footprint during the study period, or whether the appearance of 
 progress masks deeper structural challenges.
+
+# Literature Review
+
+## The Decoupling Debate in Developing Economies
+
+The relationship between economic growth and carbon emissions has been 
+studied extensively across both developed and developing economies. The 
+foundational concern is straightforward: if emissions grow proportionally 
+with GDP, then economic development and climate targets become 
+structurally incompatible. The concept of decoupling, where emissions 
+grow slower than or independently of GDP, has therefore become central 
+to sustainability research.
+
+Early decoupling studies relied on the OECD decoupling factor, a simple 
+ratio of emission growth to GDP growth. However, this measure proved 
+highly sensitive to the choice of base and end years, producing 
+inconsistent results across studies. Tapio (2005) addressed this 
+limitation by introducing an elasticity-based decoupling index that 
+classifies the GDP-emissions relationship into eight distinct states, 
+offering a more stable and nuanced year by year assessment. This 
+framework has since become widely adopted in the literature.
+
+## Existing Studies on India
+
+Several studies have applied decoupling and decomposition frameworks to 
+India, though with important limitations that this study addresses. A 
+comparative analysis of India, Brazil and China for the period 2000 to 
+2018 using the Tapio model found that India's decoupling status showed 
+continuous fluctuations, in contrast to China which moved toward strong 
+decoupling after 2012. India predominantly experienced weak decoupling 
+and expansive coupling during this period, suggesting that emissions 
+continued to grow alongside the economy rather than separating from it.
+
+Studies applying the LMDI decomposition method to India have largely 
+focused on specific sectors rather than the economy as a whole. Research 
+on India's transportation sector from 2001 to 2020 found that economic 
+advancement and population scale were the primary drivers of rising CO2 
+emissions, while energy efficiency improvements partially offset these 
+increases. Similarly, studies on India's manufacturing sector have used 
+combined Tapio and LMDI approaches but remain limited to organised 
+manufacturing and do not account for the broader structural shift of 
+India's economy toward services during this period.
+
+On the EKC hypothesis, empirical evidence for India is mixed. A study 
+covering 1991 to 2018 confirmed the existence of an inverted U-shaped 
+EKC relationship for India, but found that CO2 levels continued rising 
+past the theoretical turnaround point, suggesting that the income 
+threshold alone does not determine emission trajectories. Research by 
+Sinha and Shahbaz (2018) similarly found evidence of an inverted U-shaped 
+EKC for India with a turnaround point at approximately USD 2,937 per 
+capita, while also demonstrating that renewable energy generation 
+played a significant role in moderating emissions.
+
+## The Gap This Study Fills
+
+Despite this body of work, three important gaps remain. First, most 
+existing studies for India either end before 2020 or do not extend to 
+2022, missing the post-pandemic recovery period which saw significant 
+shifts in both GDP growth and energy demand. Second, no study to our 
+knowledge applies all three frameworks, Tapio decoupling, LMDI 
+decomposition, and EKC regression, together in an integrated analysis 
+for India's economy as a whole over the 2000 to 2022 period. Third, the 
+role of economic structural change, specifically the expansion of the 
+services sector, as a confounding factor in India's apparent emission 
+intensity improvements has not been rigorously isolated using 
+decomposition methods at the national level.
+
+This study addresses all three gaps by applying a unified analytical 
+framework to the full 2000 to 2022 period, using the most recent 
+available data from EDGAR, the World Bank, and the Central Electricity 
+Authority of India.
