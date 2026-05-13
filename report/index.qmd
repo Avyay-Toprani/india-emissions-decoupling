@@ -199,8 +199,11 @@ institutional sources. CO2 and GHG emission data are obtained from the
 EDGAR (Emissions Database for Global Atmospheric Research) database 
 maintained by the European Commission Joint Research Centre. GDP and 
 GDP per capita data in constant 2015 USD are sourced from the World 
-Bank World Development Indicators. Sectoral energy consumption and 
-electricity generation data are obtained from the Central Electricity 
-Authority of India and the International Energy Agency. The study 
-period covers 2000 to 2022, representing the most complete and 
-consistent data available across all sources at the time of writing.
+Bank World Development Indicators. Energy consumption data by fuel type 
+are obtained from Our World in Data, which compiles and harmonises 
+energy statistics from the BP Statistical Review of World Energy. State 
+level electricity generation data are obtained from the Central 
+Electricity Authority of India and are used in the spatial analysis 
+component of this study. The study period covers 2000 to 2022, 
+representing the most complete and consistent data available across all 
+sources at the time of writing.
