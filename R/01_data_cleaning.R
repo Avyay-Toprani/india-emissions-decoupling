@@ -72,3 +72,52 @@ edgar_sector_india <- edgar_sector_raw %>%
 
 write_csv(edgar_india, "data/processed/edgar_india_total.csv")
 write_csv(edgar_sector_india, "data/processed/edgar_sector_india.csv")
+
+
+# ============================================================
+# Load World Bank GDP Data
+# ============================================================
+
+library(readxl)
+library(tidyverse)
+library(janitor)
+
+gdp_raw <- read_csv("data/raw/worldbank_gdp_india.csv", skip = 4)
+
+# Filter for India and select study period
+gdp_india <- gdp_raw %>%
+  filter(`Country Code` == "IND") %>%
+  select(`Country Name`, `Country Code`, `1960`:`2023`) %>%
+  clean_names()
+
+# Reshape from wide to long format
+gdp_india_long <- gdp_india %>%
+  pivot_longer(cols = x2000:x2022,
+               names_to = "year",
+               values_to = "gdp") %>%
+  mutate(year = as.integer(gsub("x", "", year))) %>%
+  select(year, gdp)
+
+# Save cleaned GDP data
+write_csv(gdp_india_long, "data/processed/gdp_india_clean.csv")
+
+
+# ============================================================
+# Merge EDGAR and GDP data into unified panel
+# ============================================================
+
+# First reshape edgar_india to long format
+edgar_india_long <- edgar_india %>%
+  pivot_longer(cols = y_2000:y_2022,
+               names_to = "year",
+               values_to = "co2") %>%
+  mutate(year = as.integer(gsub("y_", "", year))) %>%
+  group_by(year) %>%
+  summarise(co2_total = sum(co2, na.rm = TRUE))
+
+# Merge with GDP data
+panel_data <- edgar_india_long %>%
+  left_join(gdp_india_long, by = "year")
+
+# Save unified panel dataset
+write_csv(panel_data, "data/processed/panel_data.csv")
