@@ -121,3 +121,40 @@ panel_data <- edgar_india_long %>%
 
 # Save unified panel dataset
 write_csv(panel_data, "data/processed/panel_data.csv")
+
+̥
+# ============================================================
+# Load OWID Energy Data
+# ============================================================
+
+owid_raw <- read_csv("data/raw/owid_energy_data.csv")
+
+# Filter for India and study period
+owid_india <- owid_raw %>%
+  filter(iso_code == "IND") %>%
+  filter(year >= 2000 & year <= 2022) %>%
+  select(country, year, 
+         primary_energy_consumption,
+         fossil_fuel_consumption,
+         renewables_consumption,
+         coal_consumption,
+         oil_consumption,
+         gas_consumption,
+         renewables_share_energy,
+         fossil_share_energy,
+         energy_per_gdp,
+         carbon_intensity_elec)
+
+# Save cleaned OWID energy data
+write_csv(owid_india, "data/processed/owid_energy_india.csv")
+
+
+# ============================================================
+# Merge OWID energy data into panel dataset
+# ============================================================
+
+panel_data <- panel_data %>%
+  left_join(owid_india %>% select(-country), by = "year")
+
+# Save updated panel dataset
+write_csv(panel_data, "data/processed/panel_data.csv")
