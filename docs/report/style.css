@@ -1,0 +1,12 @@
+body {
+  text-align: justify;
+}
+
+.sidebar-navigation,
+.sidebar,
+#quarto-margin-sidebar,
+.navbar,
+h1.title,
+.quarto-title {
+  text-align: left;
+}
