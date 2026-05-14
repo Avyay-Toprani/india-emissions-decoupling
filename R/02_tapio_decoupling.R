@@ -101,3 +101,13 @@ ggsave("outputs/figures/tapio_plot.png",
        width = 10, 
        height = 6, 
        dpi = 300)
+
+# ============================================================
+# Save Tapio Results Table
+# ============================================================
+
+tapio_results <- tapio_data %>%
+  select(year, tapio_index, decoupling_state) %>%
+  mutate(tapio_index = round(tapio_index, 3))
+
+write_csv(tapio_results, "outputs/tables/tapio_results.csv")

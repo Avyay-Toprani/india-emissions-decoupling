@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - report/index.qmd
 
 website:
   title: "Decoupling or Illusion?"
