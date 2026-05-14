@@ -208,9 +208,62 @@ component of this study. The study period covers 2000 to 2022,
 representing the most complete and consistent data available across all 
 sources at the time of writing.
 
-# Results
+# Results and Discussion
 
 ## Tapio Decoupling Analysis
+
+### Results
+
+The analysis covers the period 2001 to 2022, with 2000 serving as the 
+base year for calculating year on year percentage changes and therefore 
+excluded from the results.
+
+```{r}
+#| label: tbl-tapio
+#| tbl-cap: "Tapio Decoupling Index Results for India (2001 to 2022)"
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(knitr)
+
+# Load data
+panel_data <- read_csv(here::here("data/processed/panel_data.csv"))
+
+# Calculate Tapio index
+tapio_data <- panel_data %>%
+  arrange(year) %>%
+  mutate(
+    pct_change_co2 = (co2_total - lag(co2_total)) / lag(co2_total),
+    pct_change_gdp = (gdp - lag(gdp)) / gdp,
+    tapio_index = pct_change_co2 / pct_change_gdp
+  ) %>%
+  filter(!is.na(tapio_index)) %>%
+  mutate(
+    decoupling_state = case_when(
+      pct_change_gdp > 0 & tapio_index < 0 ~ "Strong Decoupling",
+      pct_change_gdp > 0 & tapio_index >= 0 & tapio_index < 0.8 ~ "Weak Decoupling",
+      pct_change_gdp > 0 & tapio_index >= 0.8 & tapio_index < 1.2 ~ "Expansive Coupling",
+      pct_change_gdp > 0 & tapio_index >= 1.2 ~ "Expansive Negative Coupling",
+      pct_change_gdp < 0 & tapio_index > 0 ~ "Recessive Coupling",
+      pct_change_gdp < 0 & tapio_index < 0 ~ "Recessive Decoupling",
+      TRUE ~ "Undefined"
+    )
+  )
+
+# Display table
+tapio_table <- tapio_data %>%
+  select(year, tapio_index, decoupling_state) %>%
+  mutate(tapio_index = round(tapio_index, 3)) %>%
+  rename(
+    Year = year,
+    `Tapio Index` = tapio_index,
+    `Decoupling State` = decoupling_state
+  )
+
+kable(tapio_table, align = "c")
+```
 
 ```{r}
 #| label: fig-tapio
@@ -310,3 +363,44 @@ progress and must be interpreted with caution. The post pandemic
 recovery in 2021 and 2022 returned India to expansive coupling, 
 suggesting that emission reductions observed during the pandemic were 
 temporary rather than structural.
+
+### Discussion
+
+The Tapio decoupling analysis reveals that India has not achieved 
+sustained decoupling of CO2 emissions from GDP growth over the 2001 
+to 2022 period. While episodes of weak decoupling were observed, 
+particularly in the early 2000s and mid 2010s, these were not 
+maintained consistently, and the overall trajectory suggests that 
+economic growth in India has continued to drive emission increases 
+across most of the study period.
+
+The deterioration toward expansive negative coupling between 2007 and 
+2012 is particularly significant. This period coincided with India's 
+rapid expansion of coal based power generation to meet rising 
+electricity demand from industrialisation and urban growth. The 
+findings suggest that energy supply decisions during this decade had 
+a lasting impact on India's emission trajectory that subsequent 
+efficiency improvements have only partially offset.
+
+The single instance of strong decoupling in 2019 is a noteworthy 
+finding. While it represents the only year in the study period where 
+emissions fell alongside positive GDP growth, it should be interpreted 
+cautiously. A single year of strong decoupling does not constitute a 
+structural shift, and the subsequent return to expansive coupling in 
+2021 and 2022 confirms that this was not the beginning of a sustained 
+transition. The LMDI decomposition analysis in the following section 
+will investigate the specific drivers behind this observation.
+
+The 2020 recessive coupling result, driven by the COVID-19 pandemic, 
+highlights an important methodological consideration. Emission 
+reductions caused by economic contraction are fundamentally different 
+from those achieved through structural change or technological 
+transition. Including 2020 in trend analysis without this caveat would 
+risk overstating India's decoupling progress.
+
+Overall the Tapio results raise significant questions about whether 
+India's declining emission intensity, as reported in its NDC progress 
+assessments, reflects genuine structural decoupling or is partly 
+attributable to the compositional shift of the economy toward less 
+energy intensive services. This question is addressed directly in the 
+LMDI decomposition that follows.
