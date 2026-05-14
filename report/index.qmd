@@ -277,7 +277,7 @@ ggplot(tapio_data, aes(x = year, y = tapio_index, fill = decoupling_state)) +
   )
 ```
 
-Table 1 presents the year by year Tapio decoupling index values and 
+Figure 1 presents the year by year Tapio decoupling index values and 
 their corresponding classification for India over the study period 
 2001 to 2022. The results reveal a highly inconsistent decoupling 
 trajectory, with India oscillating between weak decoupling and 
