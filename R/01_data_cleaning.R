@@ -122,7 +122,7 @@ panel_data <- edgar_india_long %>%
 # Save unified panel dataset
 write_csv(panel_data, "data/processed/panel_data.csv")
 
-̥
+
 # ============================================================
 # Load OWID Energy Data
 # ============================================================
