@@ -404,3 +404,256 @@ assessments, reflects genuine structural decoupling or is partly
 attributable to the compositional shift of the economy toward less 
 energy intensive services. This question is addressed directly in the 
 LMDI decomposition that follows.
+
+## LMDI Decomposition Analysis
+
+### Results
+
+The LMDI decomposition separates the total change in India's CO2 
+emissions each year into three contributing effects: the activity 
+effect, reflecting changes driven by overall GDP growth; the structure 
+effect, capturing shifts in the sectoral composition of the economy; 
+and the intensity effect, representing changes in emission intensity 
+across sectors. The year 2000 serves as the base year and is excluded 
+from the decomposition results.
+
+```{r}
+#| label: tbl-lmdi
+#| tbl-cap: "LMDI Decomposition Results for India (2001 to 2022). All values in Gg CO2."
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+lmdi_table <- read_csv(here::here("outputs/tables/lmdi_results.csv")) %>%
+  mutate(
+    year = as.integer(year),
+    across(c(activity_effect, structure_effect,
+             intensity_effect, actual_change),
+           ~ format(round(., 0), big.mark = ","))
+  ) %>%
+  select(year, activity_effect, structure_effect,
+         intensity_effect, actual_change)
+
+kable(lmdi_table, align = "c",
+      col.names = c("Year",
+                    "Activity Effect (Gg CO2)",
+                    "Structure Effect (Gg CO2)",
+                    "Intensity Effect (Gg CO2)",
+                    "Actual Change (Gg CO2)"))
+```
+
+```{r}
+#| label: fig-lmdi-overview
+#| fig-cap: "LMDI Decomposition Overview with Actual Emission Change (2001 to 2022)"
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(patchwork)
+
+# Load data
+panel_data <- read_csv(here::here("data/processed/panel_data.csv"))
+edgar_sector_long <- read_csv(here::here("data/processed/edgar_sector_long.csv"))
+
+# Log mean function
+log_mean <- function(a, b) {
+  if (is.na(a) | is.na(b)) return(NA)
+  if (a == b) return(a)
+  if (a <= 0 | b <= 0) return(0)
+  (a - b) / (log(a) - log(b))
+}
+log_mean_vec <- Vectorize(log_mean)
+
+# Prepare LMDI data
+lmdi_data <- edgar_sector_long %>%
+  left_join(panel_data %>% select(year, gdp, co2_total), by = "year") %>%
+  group_by(year) %>%
+  mutate(
+    sector_share = co2 / co2_total,
+    emission_intensity = co2 / gdp
+  ) %>%
+  ungroup() %>%
+  arrange(sector_group, year)
+
+# Calculate effects
+lmdi_results <- lmdi_data %>%
+  group_by(sector_group) %>%
+  mutate(
+    lm_weight = log_mean_vec(co2, lag(co2)),
+    activity_effect = lm_weight * log(gdp / lag(gdp)),
+    structure_effect = lm_weight * log(sector_share / lag(sector_share)),
+    intensity_effect = lm_weight * log(emission_intensity / lag(emission_intensity))
+  ) %>%
+  ungroup() %>%
+  filter(!is.na(activity_effect)) %>%
+  group_by(year) %>%
+  summarise(
+    activity_effect  = sum(activity_effect, na.rm = TRUE),
+    structure_effect = sum(structure_effect, na.rm = TRUE),
+    intensity_effect = sum(intensity_effect, na.rm = TRUE)
+  ) %>%
+  left_join(
+    panel_data %>%
+      arrange(year) %>%
+      mutate(actual_change = co2_total - lag(co2_total)) %>%
+      select(year, actual_change),
+    by = "year"
+  )
+
+# Reshape for overview plot
+lmdi_long <- lmdi_results %>%
+  select(year, activity_effect, structure_effect, intensity_effect) %>%
+  pivot_longer(cols = c(activity_effect, structure_effect, intensity_effect),
+               names_to = "effect",
+               values_to = "value") %>%
+  mutate(effect = case_when(
+    effect == "activity_effect"  ~ "Activity Effect",
+    effect == "structure_effect" ~ "Structure Effect",
+    effect == "intensity_effect" ~ "Intensity Effect"
+  ))
+
+effect_colours <- c(
+  "Activity Effect"  = "#e74c3c",
+  "Structure Effect" = "#f39c12",
+  "Intensity Effect" = "#2ecc71"
+)
+
+# Overview plot
+ggplot() +
+  geom_col(data = lmdi_long,
+           aes(x = year, y = value, fill = effect),
+           position = "stack") +
+  geom_line(data = lmdi_results,
+            aes(x = year, y = actual_change),
+            color = "black", linewidth = 1) +
+  geom_point(data = lmdi_results,
+             aes(x = year, y = actual_change),
+             color = "black", size = 2) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray40") +
+  scale_fill_manual(values = effect_colours) +
+  scale_x_continuous(breaks = seq(2001, 2022, by = 2)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "LMDI Decomposition of CO2 Emission Changes in India (2001 to 2022)",
+    subtitle = "Black line shows actual emission change",
+    x = "Year",
+    y = "Emission Change (Gg CO2)",
+    fill = "Effect",
+    caption = "Source: EDGAR, World Bank WDI. Authors own calculations."
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 12),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    legend.position = "right",
+    legend.text = element_text(size = 9),
+    legend.title = element_text(size = 10, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+```{r}
+#| label: fig-lmdi-panels
+#| fig-cap: "LMDI Decomposition Effects for India by Component (2001 to 2022)"
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 14
+#| fig-height: 5
+
+p_activity <- ggplot(lmdi_results, aes(x = year, y = activity_effect)) +
+  geom_col(fill = "#e74c3c") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray40") +
+  scale_x_continuous(breaks = seq(2001, 2022, by = 3)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Activity Effect", x = "Year", y = "Emission Change (Gg CO2)") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 11),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+p_structure <- ggplot(lmdi_results, aes(x = year, y = structure_effect)) +
+  geom_col(fill = "#f39c12") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray40") +
+  scale_x_continuous(breaks = seq(2001, 2022, by = 3)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Structure Effect", x = "Year", y = "Emission Change (Gg CO2)") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 11),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+p_intensity <- ggplot(lmdi_results, aes(x = year, y = intensity_effect)) +
+  geom_col(fill = "#2ecc71") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray40") +
+  scale_x_continuous(breaks = seq(2001, 2022, by = 3)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Intensity Effect", x = "Year", y = "Emission Change (Gg CO2)") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 11),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+p_activity + p_structure + p_intensity +
+  plot_annotation(
+    title = "LMDI Decomposition Effects for India (2001 to 2022)",
+    caption = "Source: EDGAR, World Bank WDI. Authors own calculations.",
+    theme = theme(plot.title = element_text(face = "bold", size = 13))
+  )
+```
+
+The decomposition results reveal three distinct patterns across the 
+study period. The activity effect is consistently positive throughout 
+2001 to 2022, reflecting India's sustained economic growth and its 
+upward pressure on emissions in every year except 2020. The intensity 
+effect is the dominant counterforce, showing large negative values in 
+years of strong efficiency improvement and renewable energy expansion, 
+particularly 2015 and 2016, but turning positive during periods of 
+coal-intensive industrial expansion such as 2007 to 2012. The 
+structure effect is negligible across the entire study period, with 
+values close to zero in every year, indicating that shifts in 
+sectoral composition contributed minimally to emission changes.
+
+### Discussion
+
+The LMDI decomposition results provide critical insight into the 
+mechanisms underlying India's emission trajectory and directly address 
+the central research question of whether observed decoupling reflects 
+genuine structural change.
+
+The most significant finding is the near-zero structure effect across 
+all years of the study period. This result challenges the widely held 
+narrative that India's transition toward a service-dominated economy 
+has been a meaningful driver of emission reductions. While India's 
+services sector has grown substantially as a share of GDP during 2000 
+to 2022, the sectoral composition of emissions has remained largely 
+unchanged, suggesting that emission-intensive sectors such as power 
+generation and manufacturing have maintained their relative share of 
+total emissions even as the broader economy evolved.
+
+The intensity effect emerges as the primary mechanism through which 
+India has achieved periods of emission reduction or moderation. The 
+large negative intensity values observed in 2015 and 2016 coincide 
+with India's accelerated deployment of renewable energy capacity 
+following the launch of the National Solar Mission targets in 2010 
+and subsequent policy push. This suggests that technology and policy 
+driven changes in the energy mix, rather than structural economic 
+change, have been responsible for India's improvements in emission 
+intensity.
+
+Conversely, the positive intensity values observed between 2007 and 
+2012 indicate a period when coal-based capacity additions outpaced 
+efficiency gains, pushing emission intensity upward. This finding 
+aligns with historical records of rapid coal power plant construction 
+during this period to address India's chronic electricity deficit.
+
+The dominance of the activity effect throughout the study period 
+confirms that economic growth remains the primary driver of rising 
+absolute emissions in India. Without sustained and large negative 
+intensity effects, India's emission trajectory would have been 
+significantly steeper. This underscores the critical importance of 
+continued investment in renewable energy and energy efficiency to 
+counterbalance the emission pressure of economic growth, particularly 
+as India targets higher GDP growth rates in the coming decade.
