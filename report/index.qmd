@@ -137,6 +137,19 @@ GDP growing), and expansive negative coupling ($e > 1.2$, GDP growing),
 representing the best, moderate, and worst case scenarios respectively 
 for India's emissions trajectory.
 
+**Data Processing:**
+
+The Tapio index is calculated using India's total national CO2 
+emissions from the EDGAR TOTALS BY COUNTRY dataset and real GDP in 
+constant 2015 USD from the World Bank World Development Indicators. 
+Both series were filtered to the study period 2000 to 2022 and merged 
+into a unified panel dataset. Year on year percentage changes were 
+computed for both variables, with 2000 serving as the base year. The 
+index was calculated for each year from 2001 to 2022, producing 22 
+annual observations. Each observation was then classified into one of 
+Tapio's eight decoupling states based on the threshold values defined 
+in the original framework.
+
 ## LMDI Decomposition
 
 The Log Mean Divisia Index (LMDI) decomposition method, developed by 
@@ -154,10 +167,24 @@ Where $GDP$ is total real output, $GDP_i/GDP$ is the share of sector
 $i$ in total output representing the structure effect, $E_i/GDP_i$ is 
 energy intensity of sector $i$ representing the intensity effect, and 
 $C_i/E_i$ is the emission factor of sector $i$ representing the 
-emission factor effect. The total change in emissions between any two 
-years is then decomposed as:
+emission factor effect. 
 
-$$\Delta C = \Delta C_{activity} + \Delta C_{structure} + \Delta C_{intensity} + \Delta C_{emission factor}$$
+While the full LMDI framework decomposes emission changes into four 
+effects, namely the activity effect, structure effect, energy intensity 
+effect, and emission factor effect, this study combines the final two 
+into a single composite intensity effect. This approach is adopted due 
+to the unavailability of consistent sectoral energy consumption data 
+for India at the required granularity across the full study period. 
+The combined intensity effect captures both changes in energy use per 
+unit of output and changes in the carbon content of energy, and is a 
+well established approach in the LMDI literature when sectoral energy 
+data are unavailable. The decomposition identity used in this study is 
+therefore:
+
+$$\Delta C = \Delta C_{activity} + \Delta C_{structure} + \Delta C_{intensity}$$
+
+Where $\Delta C_{intensity}$ represents the combined effect of energy 
+intensity and emission factor changes across sectors.
 
 Each component is calculated using the LMDI additive formula:
 
@@ -167,6 +194,45 @@ Where $L(V_{i}^{T}, V_{i}^{0})$ is the logarithmic mean of emissions
 in the base and target years, defined as:
 
 $$L(A, B) = \frac{A - B}{\ln A - \ln B}$$
+
+**Data Processing:**
+
+The EDGAR IPCC 2006 dataset provides CO2 emissions for India across 
+22 individual source categories for each year of the study period. 
+To align with the sectoral structure required for LMDI decomposition 
+and to ensure interpretability of results, these 22 categories were 
+aggregated into seven broader sector groups as follows:
+
+- **Power** — Main Activity Electricity and Heat Production
+- **Industry** — Manufacturing Industries and Construction, Petroleum 
+Refining, Cement Production, Lime Production, Glass Production, 
+Other Process Uses of Carbonates, Chemical Industry, Metal Industry
+- **Transport** — Civil Aviation, Road Transportation, Railways, 
+Water-borne Navigation, Other Transportation
+- **Residential** — Residential and Other Sectors
+- **Fugitive** — Solid Fuels, Oil and Natural Gas, Fossil Fuel Fires
+- **Agriculture** — Liming, Urea Application
+- **Other** — Non-Specified, Non-Energy Products from Fuels and 
+Solvent Use
+
+This grouping follows standard practice in sectoral emission analysis 
+and ensures that each group represents a meaningful and distinct 
+economic activity. The aggregation was validated by confirming that 
+the sum of all sector group emissions matched the EDGAR country total 
+for every year in the study period, with residual differences 
+attributable only to floating point precision and not to data loss.
+
+For each sector group and year, two derived variables were calculated. 
+First, the sector share, defined as each sector's emissions as a 
+proportion of total national emissions, capturing the structural 
+composition of India's emission profile. Second, the emission 
+intensity, defined as each sector's emissions per unit of real GDP, 
+capturing the combined effect of energy efficiency and energy mix 
+within each sector.
+
+The three LMDI effects were then calculated year by year using the 
+log mean weighting formula, with each effect summed across all seven 
+sector groups to produce national level decomposition results.
 
 ## The Environmental Kuznets Curve
 
@@ -204,7 +270,17 @@ are obtained from Our World in Data, which compiles and harmonises
 energy statistics from the BP Statistical Review of World Energy. State 
 level electricity generation data are obtained from the Central 
 Electricity Authority of India and are used in the spatial analysis 
-component of this study. The study period covers 2000 to 2022, 
+component of this study. 
+
+Throughout this study, emissions are reported in Gigagrams of CO2 
+(Gg CO2), the native unit used by the EDGAR database. One Gigagram 
+is equivalent to one thousand metric tonnes, or one million kilograms. 
+For reference, India's total CO2 emissions in 2022 were approximately 
+2,741,000 Gg CO2, equivalent to 2.74 billion metric tonnes. This unit 
+is retained throughout to avoid conversion errors and ensure 
+reproducibility against the source data.
+
+The study period covers 2000 to 2022, 
 representing the most complete and consistent data available across all 
 sources at the time of writing.
 
