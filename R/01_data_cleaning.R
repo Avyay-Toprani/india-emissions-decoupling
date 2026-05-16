@@ -133,7 +133,8 @@ owid_raw <- read_csv("data/raw/owid_energy_data.csv")
 owid_india <- owid_raw %>%
   filter(iso_code == "IND") %>%
   filter(year >= 2000 & year <= 2022) %>%
-  select(country, year, 
+  select(country, year,
+         population,
          primary_energy_consumption,
          fossil_fuel_consumption,
          renewables_consumption,
