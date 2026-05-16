@@ -49,6 +49,35 @@ turning_point <- -beta1 / (2 * beta2)
 turning_point
 
 # ============================================================
+# Project GDP per capita to find approximate turning point year
+# ============================================================
+
+# Calculate average annual growth rate of GDP per capita (2015-2022)
+recent_growth <- ekc_data %>%
+  filter(year >= 2015) %>%
+  summarise(
+    avg_growth = mean((gdp_pc - lag(gdp_pc)) / lag(gdp_pc), na.rm = TRUE)
+  ) %>%
+  pull(avg_growth)
+
+# Project forward until turning point is reached
+last_gdp_pc <- ekc_data %>% filter(year == 2022) %>% pull(gdp_pc)
+
+projected <- data.frame(year = 2023:2045) %>%
+  mutate(
+    gdp_pc = last_gdp_pc * (1 + recent_growth)^(year - 2022)
+  ) %>%
+  filter(gdp_pc <= turning_point * 1.1)
+
+# Approximate year when turning point is reached
+turning_year <- projected %>%
+  filter(gdp_pc >= turning_point) %>%
+  slice(1) %>%
+  pull(year)
+
+turning_year
+
+# ============================================================
 # Compare turning point to actual GDP per capita
 # ============================================================
 
@@ -132,40 +161,52 @@ ekc_plot <- ggplot() +
 
 ekc_plot
 
-# ============================================================
-# Project GDP per capita to find approximate turning point year
-# ============================================================
-
-# Calculate average annual growth rate of GDP per capita (2015-2022)
-recent_growth <- ekc_data %>%
-  filter(year >= 2015) %>%
-  summarise(
-    avg_growth = mean((gdp_pc - lag(gdp_pc)) / lag(gdp_pc), na.rm = TRUE)
-  ) %>%
-  pull(avg_growth)
-
-# Project forward until turning point is reached
-last_gdp_pc <- ekc_data %>% filter(year == 2022) %>% pull(gdp_pc)
-
-projected <- data.frame(year = 2023:2045) %>%
-  mutate(
-    gdp_pc = last_gdp_pc * (1 + recent_growth)^(year - 2022)
-  ) %>%
-  filter(gdp_pc <= turning_point * 1.1)
-
-# Approximate year when turning point is reached
-turning_year <- projected %>%
-  filter(gdp_pc >= turning_point) %>%
-  slice(1) %>%
-  pull(year)
-
-turning_year
-
 #===================
 # Save Figure 4
 #===================
 ggsave("outputs/figures/ekc_plot.png",
        plot = ekc_plot,
+       width = 10,
+       height = 6,
+       dpi = 300)
+
+# ============================================================
+# Figure 5: Model Fit Chart
+# ============================================================
+
+# Get actual fitted values from regression
+ekc_data_fitted <- ekc_data %>%
+  mutate(fitted = fitted(ekc_model))
+
+# Plot
+ekc_fit_plot <- ggplot(ekc_data_fitted, aes(x = year)) +
+  geom_line(aes(y = co2_pc, color = "Actual"), linewidth = 1) +
+  geom_line(aes(y = fitted, color = "Fitted"), linewidth = 1, linetype = "dashed") +
+  geom_point(aes(y = co2_pc, color = "Actual"), size = 2) +
+  scale_color_manual(values = c("Actual" = "#e74c3c", "Fitted" = "#2c3e50")) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(breaks = seq(2000, 2022, by = 2)) +
+  labs(
+    title = "EKC Model Fit: Actual vs Fitted CO2 Per Capita for India (2000 to 2022)",
+    subtitle = paste0("R-squared = 0.991, Adjusted R-squared = 0.990, F-statistic p-value < 0.001"),
+    x = "Year",
+    y = "CO2 Emissions per Capita (Gg CO2)",
+    color = "",
+    caption = "Source: EDGAR, World Bank WDI. Authors own calculations."
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 12),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+ekc_fit_plot
+
+# Save Figure 5
+ggsave("outputs/figures/ekc_fit_plot.png",
+       plot = ekc_fit_plot,
        width = 10,
        height = 6,
        dpi = 300)
