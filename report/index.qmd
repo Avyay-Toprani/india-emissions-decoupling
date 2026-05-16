@@ -258,6 +258,22 @@ The income turning point is then estimated as:
 
 $$Y^* = -\frac{\beta_1}{2\beta_2}$$
 
+**Data Processing:**
+
+For the EKC regression, India's total CO2 emissions from the EDGAR 
+TOTALS BY COUNTRY dataset were divided by population to derive per 
+capita emissions, the dependent variable in the model. Real GDP from 
+the World Bank World Development Indicators was similarly divided by 
+population to produce GDP per capita in constant 2015 USD. A squared 
+term of GDP per capita was computed to capture the non-linear inverted 
+U relationship. Two control variables were included: the share of 
+renewables in total energy consumption and energy consumption per unit 
+of GDP, both sourced from the Our World in Data energy dataset. All 
+variables were filtered to the study period 2000 to 2022, producing 
+23 annual observations for the regression. Population data were 
+obtained from the Our World in Data dataset, which sources demographic 
+data from the United Nations World Population Prospects.
+
 ## Data Sources
 
 All data used in this study are drawn from publicly available 
@@ -733,3 +749,235 @@ significantly steeper. This underscores the critical importance of
 continued investment in renewable energy and energy efficiency to 
 counterbalance the emission pressure of economic growth, particularly 
 as India targets higher GDP growth rates in the coming decade.
+
+## EKC Regression Analysis
+
+### Results
+
+The Environmental Kuznets Curve hypothesis is tested using a quadratic 
+regression of per capita CO2 emissions on GDP per capita, its squared 
+term, and two control variables covering the period 2000 to 2022. The 
+estimated regression equation is:
+
+$$\widehat{CO_{2,pc}} = -0.00336 + 0.00000255 \cdot Y - 0.000000000408 \cdot Y^2 - 0.0000385 \cdot REN + 0.00215 \cdot EI$$
+
+Where $Y$ is GDP per capita in constant 2015 USD, $REN$ is the share 
+of renewables in total energy consumption, and $EI$ is energy 
+consumption per unit of GDP.
+
+```{r}
+#| label: tbl-ekc
+#| tbl-cap: "EKC Regression Results for India (2000 to 2022). Note: *** p < 0.001, ** p < 0.01, * p < 0.05. Coefficients and standard errors are reported in their original scale."
+#| echo: false
+#| warning: false
+#| message: false
+
+library(knitr)
+library(kableExtra)
+
+ekc_reg_table <- data.frame(
+  Variable = c("Intercept", 
+               "GDP per Capita (USD)", 
+               "GDP per Capita Squared (USD²)",
+               "Renewables Share (% of total energy)", 
+               "Energy Intensity (energy per GDP)"),
+  Coefficient = c("-3.358 \u00d7 10\u207b\u00b3", 
+                  "2.548 \u00d7 10\u207b\u2076", 
+                  "-4.077 \u00d7 10\u207b\u00b9\u2070",
+                  "-3.847 \u00d7 10\u207b\u2075", 
+                  "2.154 \u00d7 10\u207b\u00b3"),
+  Std_Error = c("6.837 \u00d7 10\u207b\u2074", 
+                "1.986 \u00d7 10\u207b\u2077",
+                "5.419 \u00d7 10\u207b\u00b9\u00b9",
+                "1.111 \u00d7 10\u207b\u2075", 
+                "4.438 \u00d7 10\u207b\u2074"),
+  t_value = c("-4.912", "12.835", "-7.522", "-3.462", "4.853"),
+  p_value = c("< 0.001 ***", "< 0.001 ***", "< 0.001 ***",
+              "0.003 **", "< 0.001 ***")
+)
+
+kable(ekc_reg_table, align = "c",
+      col.names = c("Variable", "Coefficient",
+                    "Std. Error", "t-value", "p-value"))
+```
+
+The model demonstrates an exceptionally strong fit, with an R-squared 
+of 0.9915 and an adjusted R-squared of 0.9896, indicating that GDP 
+per capita, renewable energy share, and energy intensity together 
+explain 99.15% of the variation in India's per capita CO2 emissions 
+over the study period. The overall model is highly statistically 
+significant, with an F-statistic of 525.3 and a p-value below 0.001.
+
+```{r}
+#| label: fig-ekc
+#| fig-cap: "Environmental Kuznets Curve for India (2000 to 2022) with Projected Turning Point"
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(here)
+
+panel_data <- read_csv(here::here("data/processed/panel_data.csv"))
+
+ekc_data <- panel_data %>%
+  mutate(
+    co2_pc = co2_total / population,
+    gdp_pc = gdp / population,
+    gdp_pc_sq = gdp_pc^2
+  ) %>%
+  select(year, co2_pc, gdp_pc, gdp_pc_sq,
+         renewables_share_energy, energy_per_gdp)
+
+ekc_model <- lm(co2_pc ~ gdp_pc + gdp_pc_sq +
+                  renewables_share_energy + energy_per_gdp,
+                data = ekc_data)
+
+beta1 <- coef(ekc_model)["gdp_pc"]
+beta2 <- coef(ekc_model)["gdp_pc_sq"]
+turning_point <- -beta1 / (2 * beta2)
+
+recent_growth <- ekc_data %>%
+  filter(year >= 2015) %>%
+  summarise(avg_growth = mean((gdp_pc - lag(gdp_pc)) / lag(gdp_pc), 
+                               na.rm = TRUE)) %>%
+  pull(avg_growth)
+
+last_gdp_pc <- ekc_data %>% filter(year == 2022) %>% pull(gdp_pc)
+
+projected <- data.frame(year = 2023:2045) %>%
+  mutate(gdp_pc = last_gdp_pc * (1 + recent_growth)^(year - 2022)) %>%
+  filter(gdp_pc <= turning_point * 1.1)
+
+turning_year <- projected %>%
+  filter(gdp_pc >= turning_point) %>%
+  slice(1) %>%
+  pull(year)
+
+gdp_range <- data.frame(
+  gdp_pc = seq(min(ekc_data$gdp_pc), turning_point * 1.05, length.out = 300),
+  renewables_share_energy = mean(ekc_data$renewables_share_energy, na.rm = TRUE),
+  energy_per_gdp = mean(ekc_data$energy_per_gdp, na.rm = TRUE)
+) %>%
+  mutate(gdp_pc_sq = gdp_pc^2)
+
+gdp_range$co2_pc_fitted <- predict(ekc_model, newdata = gdp_range)
+
+ggplot() +
+  geom_line(data = gdp_range %>% filter(gdp_pc <= last_gdp_pc),
+            aes(x = gdp_pc, y = co2_pc_fitted),
+            color = "#2c3e50", linewidth = 1.2) +
+  geom_line(data = gdp_range %>% filter(gdp_pc >= last_gdp_pc),
+            aes(x = gdp_pc, y = co2_pc_fitted),
+            color = "#2c3e50", linewidth = 1.2, linetype = "dashed") +
+  geom_point(data = ekc_data,
+             aes(x = gdp_pc, y = co2_pc),
+             color = "#e74c3c", size = 2.5) +
+  geom_text(data = ekc_data %>%
+              filter(year %in% c(2000, 2005, 2010, 2015, 2019, 2022)),
+            aes(x = gdp_pc, y = co2_pc, label = year),
+            vjust = -0.8, size = 3, color = "#e74c3c") +
+  geom_vline(xintercept = turning_point,
+             linetype = "dashed", color = "#f39c12", linewidth = 0.8) +
+  annotate("text", x = turning_point + 20,
+           y = max(gdp_range$co2_pc_fitted) * 0.92,
+           label = paste0("Turning point\nUSD ", round(turning_point, 0),
+                          "\n(~", turning_year, ")"),
+           hjust = 0, size = 3.2, color = "#f39c12") +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(labels = scales::comma) +
+  labs(
+    title = "Environmental Kuznets Curve for India (2000 to 2022) with Projection",
+    subtitle = "Solid line: observed period. Dashed line: projected trajectory. Red points: actual observations.",
+    x = "GDP per Capita (constant 2015 USD)",
+    y = "CO2 Emissions per Capita (Gg CO2)",
+    caption = "Source: EDGAR, World Bank WDI. Authors own calculations."
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 12),
+    plot.subtitle = element_text(size = 10, color = "gray40")
+  )
+```
+
+```{r}
+#| label: fig-ekc-fit
+#| fig-cap: "EKC Model Fit: Actual vs Fitted CO2 Per Capita for India (2000 to 2022)"
+#| echo: false
+#| warning: false
+#| message: false
+
+ekc_data_fitted <- ekc_data %>%
+  mutate(fitted = fitted(ekc_model))
+
+ggplot(ekc_data_fitted, aes(x = year)) +
+  geom_line(aes(y = co2_pc, color = "Actual"), linewidth = 1) +
+  geom_line(aes(y = fitted, color = "Fitted"), linewidth = 1, linetype = "dashed") +
+  geom_point(aes(y = co2_pc, color = "Actual"), size = 2) +
+  scale_color_manual(values = c("Actual" = "#e74c3c", "Fitted" = "#2c3e50")) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(breaks = seq(2000, 2022, by = 2)) +
+  labs(
+    title = "EKC Model Fit: Actual vs Fitted CO2 Per Capita for India (2000 to 2022)",
+    subtitle = "R-squared = 0.991, Adjusted R-squared = 0.990, F-statistic p-value < 0.001",
+    x = "Year",
+    y = "CO2 Emissions per Capita (Gg CO2)",
+    color = "",
+    caption = "Source: EDGAR, World Bank WDI. Authors own calculations."
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 12),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+### Discussion
+
+The EKC regression results confirm the existence of an inverted U 
+shaped relationship between per capita income and CO2 emissions for 
+India over the 2000 to 2022 period. The positive and statistically 
+significant coefficient on GDP per capita and the negative and 
+statistically significant coefficient on its squared term together 
+satisfy the mathematical conditions for the EKC hypothesis, consistent 
+with findings by Sinha and Shahbaz (2018) and Gopakumar et al. (2022) 
+for earlier study periods.
+
+The estimated income turning point of approximately USD 3,126 per 
+capita in constant 2015 USD is particularly significant. India's GDP 
+per capita stood at approximately USD 2,098 in 2022, meaning India 
+remains on the rising left side of the inverted U curve and has not 
+yet reached its emission peak. Based on India's average GDP per capita 
+growth rate of approximately 4.5% per year observed between 2015 and 
+2022, the model projects that India will reach its EKC turning point 
+around 2032, assuming current growth and energy policy trajectories 
+are maintained.
+
+This projected turning point carries important policy implications. 
+First, it coincides closely with India's NDC commitment year of 2030, 
+suggesting that achieving the NDC target of reducing emission intensity 
+by 45% relative to 2005 levels may require active policy intervention 
+rather than relying on income driven structural change alone. Second, 
+the significant negative coefficient on renewable energy share 
+indicates that accelerating the renewable energy transition could bring 
+the turning point forward, potentially before 2032. Conversely, any 
+slowdown in renewable deployment or acceleration of fossil fuel 
+consumption could push the turning point further into the future.
+
+The exceptionally high R-squared of 0.9915 confirms that the three 
+variable model captures India's emission dynamics with very high 
+precision. However this should be interpreted with appropriate caution 
+given the relatively small sample size of 23 annual observations. The 
+model is best understood as a characterisation of India's emission 
+trajectory over the specific study period rather than a universal 
+predictive tool.
+
+It is also important to note that the EKC turning point estimated here 
+is higher than the USD 2,938 per capita estimate reported by Sinha and 
+Shahbaz (2018) for an earlier period ending in 2014. This upward 
+revision may reflect the continued expansion of coal based capacity 
+during 2015 to 2022 that has sustained emission pressure at higher 
+income levels than previously anticipated, and underscores the 
+importance of updating EKC estimates as new data become available.
