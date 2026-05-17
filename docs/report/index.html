@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Avyay Toprani">
-<meta name="dcterms.date" content="2026-05-15">
+<meta name="dcterms.date" content="2026-05-17">
 
 <title>Decoupling or Illusion? Analysing Emission Intensity, Economic Growth, and Sectoral Energy Transitions in India (2000–2022) – Decoupling or Illusion?</title>
 <style>
@@ -235,7 +235,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 15, 2026</p>
+      <p class="date">May 17, 2026</p>
     </div>
   </div>
   
@@ -837,6 +837,7 @@ Figure&nbsp;5: EKC Model Fit: Actual vs Fitted CO2 Per Capita for India (2000 to
 <section id="discussion-2" class="level3" data-number="4.3.2">
 <h3 data-number="4.3.2" class="anchored" data-anchor-id="discussion-2"><span class="header-section-number">4.3.2</span> Discussion</h3>
 <p>The EKC regression results confirm the existence of an inverted U shaped relationship between per capita income and CO2 emissions for India over the 2000 to 2022 period. The positive and statistically significant coefficient on GDP per capita and the negative and statistically significant coefficient on its squared term together satisfy the mathematical conditions for the EKC hypothesis, consistent with findings by Sinha and Shahbaz (2018) and Gopakumar et al.&nbsp;(2022) for earlier study periods.</p>
+<p>A notable feature of the regression results is the systematic shift in the relationship between actual and fitted values around 2015. Prior to 2015, India’s actual per capita CO2 emissions consistently exceeded the model’s fitted values, indicating that emissions were higher than what GDP per capita alone would predict. From 2015 onwards, actual emissions fell below the fitted values, suggesting that India became cleaner than the income driven EKC trajectory would anticipate. This structural break coincides with two major policy interventions. First, the Jawaharlal Nehru National Solar Mission, launched in January 2010, began deploying significant solar capacity at scale during its Phase II from 2014 to 2017. Second, in 2015 India’s Ministry of New and Renewable Energy adopted an ambitious revised target of 175 GW of total renewable energy capacity by 2022, comprising 100 GW of solar, 60 GW of wind, and 15 GW from biomass and small hydro. The acceleration of renewable deployment following these policy commitments appears to have driven actual emissions below the model baseline, providing evidence that deliberate policy intervention, rather than income growth alone, was responsible for India’s emission improvements after 2015. This finding reinforces the LMDI result that the intensity effect was strongly negative in 2015 and 2016, and together these two analyses point to the same conclusion: India’s post 2015 emission moderation was policy driven, not structurally determined.</p>
 <p>The estimated income turning point of approximately USD 3,126 per capita in constant 2015 USD is particularly significant. India’s GDP per capita stood at approximately USD 2,098 in 2022, meaning India remains on the rising left side of the inverted U curve and has not yet reached its emission peak. Based on India’s average GDP per capita growth rate of approximately 4.5% per year observed between 2015 and 2022, the model projects that India will reach its EKC turning point around 2032, assuming current growth and energy policy trajectories are maintained.</p>
 <p>This projected turning point carries important policy implications. First, it coincides closely with India’s NDC commitment year of 2030, suggesting that achieving the NDC target of reducing emission intensity by 45% relative to 2005 levels may require active policy intervention rather than relying on income driven structural change alone. Second, the significant negative coefficient on renewable energy share indicates that accelerating the renewable energy transition could bring the turning point forward, potentially before 2032. Conversely, any slowdown in renewable deployment or acceleration of fossil fuel consumption could push the turning point further into the future.</p>
 <p>The exceptionally high R-squared of 0.9915 confirms that the three variable model captures India’s emission dynamics with very high precision. However this should be interpreted with appropriate caution given the relatively small sample size of 23 annual observations. The model is best understood as a characterisation of India’s emission trajectory over the specific study period rather than a universal predictive tool.</p>
@@ -2176,114 +2177,156 @@ Figure&nbsp;5: EKC Model Fit: Actual vs Fitted CO2 Per Capita for India (2000 to
 <span id="cb1-887"><a href="#cb1-887" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> ekc_data,</span>
 <span id="cb1-888"><a href="#cb1-888" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> co2_pc),</span>
 <span id="cb1-889"><a href="#cb1-889" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"#e74c3c"</span>, <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb1-890"><a href="#cb1-890" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> ekc_data <span class="sc">%&gt;%</span></span>
-<span id="cb1-891"><a href="#cb1-891" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>, <span class="dv">2019</span>, <span class="dv">2022</span>)),</span>
-<span id="cb1-892"><a href="#cb1-892" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> co2_pc, <span class="at">label =</span> year),</span>
-<span id="cb1-893"><a href="#cb1-893" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.8</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"#e74c3c"</span>) <span class="sc">+</span></span>
-<span id="cb1-894"><a href="#cb1-894" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> turning_point,</span>
-<span id="cb1-895"><a href="#cb1-895" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"#f39c12"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb1-896"><a href="#cb1-896" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> turning_point <span class="sc">+</span> <span class="dv">20</span>,</span>
-<span id="cb1-897"><a href="#cb1-897" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">max</span>(gdp_range<span class="sc">$</span>co2_pc_fitted) <span class="sc">*</span> <span class="fl">0.92</span>,</span>
-<span id="cb1-898"><a href="#cb1-898" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"Turning point</span><span class="sc">\n</span><span class="st">USD "</span>, <span class="fu">round</span>(turning_point, <span class="dv">0</span>),</span>
-<span id="cb1-899"><a href="#cb1-899" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"</span><span class="sc">\n</span><span class="st">(~"</span>, turning_year, <span class="st">")"</span>),</span>
-<span id="cb1-900"><a href="#cb1-900" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> <span class="st">"#f39c12"</span>) <span class="sc">+</span></span>
-<span id="cb1-901"><a href="#cb1-901" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb1-902"><a href="#cb1-902" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb1-903"><a href="#cb1-903" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb1-904"><a href="#cb1-904" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Environmental Kuznets Curve for India (2000 to 2022) with Projection"</span>,</span>
-<span id="cb1-905"><a href="#cb1-905" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Solid line: observed period. Dashed line: projected trajectory. Red points: actual observations."</span>,</span>
-<span id="cb1-906"><a href="#cb1-906" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"GDP per Capita (constant 2015 USD)"</span>,</span>
-<span id="cb1-907"><a href="#cb1-907" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"CO2 Emissions per Capita (Gg CO2)"</span>,</span>
-<span id="cb1-908"><a href="#cb1-908" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: EDGAR, World Bank WDI. Authors own calculations."</span></span>
-<span id="cb1-909"><a href="#cb1-909" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb1-910"><a href="#cb1-910" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb1-911"><a href="#cb1-911" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb1-912"><a href="#cb1-912" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>),</span>
-<span id="cb1-913"><a href="#cb1-913" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>)</span>
-<span id="cb1-914"><a href="#cb1-914" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-915"><a href="#cb1-915" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-916"><a href="#cb1-916" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-919"><a href="#cb1-919" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb1-920"><a href="#cb1-920" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-ekc-fit</span></span>
-<span id="cb1-921"><a href="#cb1-921" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "EKC Model Fit: Actual vs Fitted CO2 Per Capita for India (2000 to 2022)"</span></span>
-<span id="cb1-922"><a href="#cb1-922" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb1-923"><a href="#cb1-923" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb1-924"><a href="#cb1-924" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb1-925"><a href="#cb1-925" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-926"><a href="#cb1-926" aria-hidden="true" tabindex="-1"></a>ekc_data_fitted <span class="ot">&lt;-</span> ekc_data <span class="sc">%&gt;%</span></span>
-<span id="cb1-927"><a href="#cb1-927" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fitted =</span> <span class="fu">fitted</span>(ekc_model))</span>
-<span id="cb1-928"><a href="#cb1-928" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-929"><a href="#cb1-929" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ekc_data_fitted, <span class="fu">aes</span>(<span class="at">x =</span> year)) <span class="sc">+</span></span>
-<span id="cb1-930"><a href="#cb1-930" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> co2_pc, <span class="at">color =</span> <span class="st">"Actual"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb1-931"><a href="#cb1-931" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> fitted, <span class="at">color =</span> <span class="st">"Fitted"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb1-932"><a href="#cb1-932" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> co2_pc, <span class="at">color =</span> <span class="st">"Actual"</span>), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb1-933"><a href="#cb1-933" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Actual"</span> <span class="ot">=</span> <span class="st">"#e74c3c"</span>, <span class="st">"Fitted"</span> <span class="ot">=</span> <span class="st">"#2c3e50"</span>)) <span class="sc">+</span></span>
-<span id="cb1-934"><a href="#cb1-934" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb1-935"><a href="#cb1-935" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2000</span>, <span class="dv">2022</span>, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb1-936"><a href="#cb1-936" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb1-937"><a href="#cb1-937" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"EKC Model Fit: Actual vs Fitted CO2 Per Capita for India (2000 to 2022)"</span>,</span>
-<span id="cb1-938"><a href="#cb1-938" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"R-squared = 0.991, Adjusted R-squared = 0.990, F-statistic p-value &lt; 0.001"</span>,</span>
-<span id="cb1-939"><a href="#cb1-939" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb1-940"><a href="#cb1-940" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"CO2 Emissions per Capita (Gg CO2)"</span>,</span>
-<span id="cb1-941"><a href="#cb1-941" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">""</span>,</span>
-<span id="cb1-942"><a href="#cb1-942" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: EDGAR, World Bank WDI. Authors own calculations."</span></span>
-<span id="cb1-943"><a href="#cb1-943" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb1-944"><a href="#cb1-944" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb1-945"><a href="#cb1-945" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb1-946"><a href="#cb1-946" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>),</span>
-<span id="cb1-947"><a href="#cb1-947" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>),</span>
-<span id="cb1-948"><a href="#cb1-948" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
-<span id="cb1-949"><a href="#cb1-949" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
-<span id="cb1-950"><a href="#cb1-950" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-951"><a href="#cb1-951" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-952"><a href="#cb1-952" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-953"><a href="#cb1-953" aria-hidden="true" tabindex="-1"></a><span class="fu">### Discussion</span></span>
-<span id="cb1-954"><a href="#cb1-954" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-955"><a href="#cb1-955" aria-hidden="true" tabindex="-1"></a>The EKC regression results confirm the existence of an inverted U </span>
-<span id="cb1-956"><a href="#cb1-956" aria-hidden="true" tabindex="-1"></a>shaped relationship between per capita income and CO2 emissions for </span>
-<span id="cb1-957"><a href="#cb1-957" aria-hidden="true" tabindex="-1"></a>India over the 2000 to 2022 period. The positive and statistically </span>
-<span id="cb1-958"><a href="#cb1-958" aria-hidden="true" tabindex="-1"></a>significant coefficient on GDP per capita and the negative and </span>
-<span id="cb1-959"><a href="#cb1-959" aria-hidden="true" tabindex="-1"></a>statistically significant coefficient on its squared term together </span>
-<span id="cb1-960"><a href="#cb1-960" aria-hidden="true" tabindex="-1"></a>satisfy the mathematical conditions for the EKC hypothesis, consistent </span>
-<span id="cb1-961"><a href="#cb1-961" aria-hidden="true" tabindex="-1"></a>with findings by Sinha and Shahbaz (2018) and Gopakumar et al. (2022) </span>
-<span id="cb1-962"><a href="#cb1-962" aria-hidden="true" tabindex="-1"></a>for earlier study periods.</span>
-<span id="cb1-963"><a href="#cb1-963" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-964"><a href="#cb1-964" aria-hidden="true" tabindex="-1"></a>The estimated income turning point of approximately USD 3,126 per </span>
-<span id="cb1-965"><a href="#cb1-965" aria-hidden="true" tabindex="-1"></a>capita in constant 2015 USD is particularly significant. India's GDP </span>
-<span id="cb1-966"><a href="#cb1-966" aria-hidden="true" tabindex="-1"></a>per capita stood at approximately USD 2,098 in 2022, meaning India </span>
-<span id="cb1-967"><a href="#cb1-967" aria-hidden="true" tabindex="-1"></a>remains on the rising left side of the inverted U curve and has not </span>
-<span id="cb1-968"><a href="#cb1-968" aria-hidden="true" tabindex="-1"></a>yet reached its emission peak. Based on India's average GDP per capita </span>
-<span id="cb1-969"><a href="#cb1-969" aria-hidden="true" tabindex="-1"></a>growth rate of approximately 4.5% per year observed between 2015 and </span>
-<span id="cb1-970"><a href="#cb1-970" aria-hidden="true" tabindex="-1"></a>2022, the model projects that India will reach its EKC turning point </span>
-<span id="cb1-971"><a href="#cb1-971" aria-hidden="true" tabindex="-1"></a>around 2032, assuming current growth and energy policy trajectories </span>
-<span id="cb1-972"><a href="#cb1-972" aria-hidden="true" tabindex="-1"></a>are maintained.</span>
-<span id="cb1-973"><a href="#cb1-973" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-974"><a href="#cb1-974" aria-hidden="true" tabindex="-1"></a>This projected turning point carries important policy implications. </span>
-<span id="cb1-975"><a href="#cb1-975" aria-hidden="true" tabindex="-1"></a>First, it coincides closely with India's NDC commitment year of 2030, </span>
-<span id="cb1-976"><a href="#cb1-976" aria-hidden="true" tabindex="-1"></a>suggesting that achieving the NDC target of reducing emission intensity </span>
-<span id="cb1-977"><a href="#cb1-977" aria-hidden="true" tabindex="-1"></a>by 45% relative to 2005 levels may require active policy intervention </span>
-<span id="cb1-978"><a href="#cb1-978" aria-hidden="true" tabindex="-1"></a>rather than relying on income driven structural change alone. Second, </span>
-<span id="cb1-979"><a href="#cb1-979" aria-hidden="true" tabindex="-1"></a>the significant negative coefficient on renewable energy share </span>
-<span id="cb1-980"><a href="#cb1-980" aria-hidden="true" tabindex="-1"></a>indicates that accelerating the renewable energy transition could bring </span>
-<span id="cb1-981"><a href="#cb1-981" aria-hidden="true" tabindex="-1"></a>the turning point forward, potentially before 2032. Conversely, any </span>
-<span id="cb1-982"><a href="#cb1-982" aria-hidden="true" tabindex="-1"></a>slowdown in renewable deployment or acceleration of fossil fuel </span>
-<span id="cb1-983"><a href="#cb1-983" aria-hidden="true" tabindex="-1"></a>consumption could push the turning point further into the future.</span>
-<span id="cb1-984"><a href="#cb1-984" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-985"><a href="#cb1-985" aria-hidden="true" tabindex="-1"></a>The exceptionally high R-squared of 0.9915 confirms that the three </span>
-<span id="cb1-986"><a href="#cb1-986" aria-hidden="true" tabindex="-1"></a>variable model captures India's emission dynamics with very high </span>
-<span id="cb1-987"><a href="#cb1-987" aria-hidden="true" tabindex="-1"></a>precision. However this should be interpreted with appropriate caution </span>
-<span id="cb1-988"><a href="#cb1-988" aria-hidden="true" tabindex="-1"></a>given the relatively small sample size of 23 annual observations. The </span>
-<span id="cb1-989"><a href="#cb1-989" aria-hidden="true" tabindex="-1"></a>model is best understood as a characterisation of India's emission </span>
-<span id="cb1-990"><a href="#cb1-990" aria-hidden="true" tabindex="-1"></a>trajectory over the specific study period rather than a universal </span>
-<span id="cb1-991"><a href="#cb1-991" aria-hidden="true" tabindex="-1"></a>predictive tool.</span>
-<span id="cb1-992"><a href="#cb1-992" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-993"><a href="#cb1-993" aria-hidden="true" tabindex="-1"></a>It is also important to note that the EKC turning point estimated here </span>
-<span id="cb1-994"><a href="#cb1-994" aria-hidden="true" tabindex="-1"></a>is higher than the USD 2,938 per capita estimate reported by Sinha and </span>
-<span id="cb1-995"><a href="#cb1-995" aria-hidden="true" tabindex="-1"></a>Shahbaz (2018) for an earlier period ending in 2014. This upward </span>
-<span id="cb1-996"><a href="#cb1-996" aria-hidden="true" tabindex="-1"></a>revision may reflect the continued expansion of coal based capacity </span>
-<span id="cb1-997"><a href="#cb1-997" aria-hidden="true" tabindex="-1"></a>during 2015 to 2022 that has sustained emission pressure at higher </span>
-<span id="cb1-998"><a href="#cb1-998" aria-hidden="true" tabindex="-1"></a>income levels than previously anticipated, and underscores the </span>
-<span id="cb1-999"><a href="#cb1-999" aria-hidden="true" tabindex="-1"></a>importance of updating EKC estimates as new data become available.</span>
+<span id="cb1-890"><a href="#cb1-890" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">data =</span> ekc_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-891"><a href="#cb1-891" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>, <span class="dv">2019</span>, <span class="dv">2022</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-892"><a href="#cb1-892" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mutate</span>(</span>
+<span id="cb1-893"><a href="#cb1-893" aria-hidden="true" tabindex="-1"></a>                 <span class="at">nudge_y =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-894"><a href="#cb1-894" aria-hidden="true" tabindex="-1"></a>                   year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2022</span>) <span class="sc">~</span> <span class="fl">0.00014</span>,</span>
+<span id="cb1-895"><a href="#cb1-895" aria-hidden="true" tabindex="-1"></a>                   year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2015</span>, <span class="dv">2019</span>) <span class="sc">~</span> <span class="sc">-</span><span class="fl">0.00014</span></span>
+<span id="cb1-896"><a href="#cb1-896" aria-hidden="true" tabindex="-1"></a>                 )</span>
+<span id="cb1-897"><a href="#cb1-897" aria-hidden="true" tabindex="-1"></a>               ),</span>
+<span id="cb1-898"><a href="#cb1-898" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> co2_pc <span class="sc">+</span> nudge_y <span class="sc">*</span> <span class="fl">0.85</span>,</span>
+<span id="cb1-899"><a href="#cb1-899" aria-hidden="true" tabindex="-1"></a>                 <span class="at">xend =</span> gdp_pc, <span class="at">yend =</span> co2_pc <span class="sc">+</span> nudge_y <span class="sc">*</span> <span class="fl">0.15</span>),</span>
+<span id="cb1-900"><a href="#cb1-900" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"gray30"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>,</span>
+<span id="cb1-901"><a href="#cb1-901" aria-hidden="true" tabindex="-1"></a>             <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.008</span>, <span class="st">"npc"</span>), <span class="at">type =</span> <span class="st">"closed"</span>)) <span class="sc">+</span></span>
+<span id="cb1-902"><a href="#cb1-902" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_text</span>(<span class="at">data =</span> ekc_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-903"><a href="#cb1-903" aria-hidden="true" tabindex="-1"></a>            <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2015</span>, <span class="dv">2019</span>, <span class="dv">2022</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-904"><a href="#cb1-904" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mutate</span>(</span>
+<span id="cb1-905"><a href="#cb1-905" aria-hidden="true" tabindex="-1"></a>              <span class="at">nudge_y =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-906"><a href="#cb1-906" aria-hidden="true" tabindex="-1"></a>                year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2005</span>, <span class="dv">2010</span>, <span class="dv">2022</span>) <span class="sc">~</span> <span class="fl">0.00014</span>,</span>
+<span id="cb1-907"><a href="#cb1-907" aria-hidden="true" tabindex="-1"></a>                year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2015</span>, <span class="dv">2019</span>) <span class="sc">~</span> <span class="sc">-</span><span class="fl">0.00014</span></span>
+<span id="cb1-908"><a href="#cb1-908" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb1-909"><a href="#cb1-909" aria-hidden="true" tabindex="-1"></a>            ),</span>
+<span id="cb1-910"><a href="#cb1-910" aria-hidden="true" tabindex="-1"></a>          <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> co2_pc <span class="sc">+</span> nudge_y, <span class="at">label =</span> year),</span>
+<span id="cb1-911"><a href="#cb1-911" aria-hidden="true" tabindex="-1"></a>          <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"#e74c3c"</span>) <span class="sc">+</span></span>
+<span id="cb1-912"><a href="#cb1-912" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> turning_point,</span>
+<span id="cb1-913"><a href="#cb1-913" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"#f39c12"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb1-914"><a href="#cb1-914" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> turning_point <span class="sc">-</span> <span class="dv">80</span>,</span>
+<span id="cb1-915"><a href="#cb1-915" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="fu">max</span>(gdp_range<span class="sc">$</span>co2_pc_fitted) <span class="sc">*</span> <span class="fl">0.85</span>,</span>
+<span id="cb1-916"><a href="#cb1-916" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"Turning point</span><span class="sc">\n</span><span class="st">USD "</span>, <span class="fu">round</span>(turning_point, <span class="dv">0</span>),</span>
+<span id="cb1-917"><a href="#cb1-917" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"</span><span class="sc">\n</span><span class="st">(~"</span>, turning_year, <span class="st">")"</span>),</span>
+<span id="cb1-918"><a href="#cb1-918" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> <span class="st">"#f39c12"</span>) <span class="sc">+</span></span>
+<span id="cb1-919"><a href="#cb1-919" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb1-920"><a href="#cb1-920" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb1-921"><a href="#cb1-921" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb1-922"><a href="#cb1-922" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Environmental Kuznets Curve for India (2000 to 2022) with Projection"</span>,</span>
+<span id="cb1-923"><a href="#cb1-923" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Solid line: observed period. Dashed line: projected trajectory. Red points: actual observations."</span>,</span>
+<span id="cb1-924"><a href="#cb1-924" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"GDP per Capita (constant 2015 USD)"</span>,</span>
+<span id="cb1-925"><a href="#cb1-925" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"CO2 Emissions per Capita (Gg CO2)"</span>,</span>
+<span id="cb1-926"><a href="#cb1-926" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: EDGAR, World Bank WDI. Authors own calculations."</span></span>
+<span id="cb1-927"><a href="#cb1-927" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-928"><a href="#cb1-928" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb1-929"><a href="#cb1-929" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb1-930"><a href="#cb1-930" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb1-931"><a href="#cb1-931" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>)</span>
+<span id="cb1-932"><a href="#cb1-932" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-933"><a href="#cb1-933" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-934"><a href="#cb1-934" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-937"><a href="#cb1-937" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-938"><a href="#cb1-938" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-ekc-fit</span></span>
+<span id="cb1-939"><a href="#cb1-939" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "EKC Model Fit: Actual vs Fitted CO2 Per Capita for India (2000 to 2022)"</span></span>
+<span id="cb1-940"><a href="#cb1-940" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb1-941"><a href="#cb1-941" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb1-942"><a href="#cb1-942" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb1-943"><a href="#cb1-943" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-944"><a href="#cb1-944" aria-hidden="true" tabindex="-1"></a>ekc_data_fitted <span class="ot">&lt;-</span> ekc_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-945"><a href="#cb1-945" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fitted =</span> <span class="fu">fitted</span>(ekc_model))</span>
+<span id="cb1-946"><a href="#cb1-946" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-947"><a href="#cb1-947" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ekc_data_fitted, <span class="fu">aes</span>(<span class="at">x =</span> year)) <span class="sc">+</span></span>
+<span id="cb1-948"><a href="#cb1-948" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> co2_pc, <span class="at">color =</span> <span class="st">"Actual"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-949"><a href="#cb1-949" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> fitted, <span class="at">color =</span> <span class="st">"Fitted"</span>), <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb1-950"><a href="#cb1-950" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> co2_pc, <span class="at">color =</span> <span class="st">"Actual"</span>), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-951"><a href="#cb1-951" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Actual"</span> <span class="ot">=</span> <span class="st">"#e74c3c"</span>, <span class="st">"Fitted"</span> <span class="ot">=</span> <span class="st">"#2c3e50"</span>)) <span class="sc">+</span></span>
+<span id="cb1-952"><a href="#cb1-952" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb1-953"><a href="#cb1-953" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2000</span>, <span class="dv">2022</span>, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb1-954"><a href="#cb1-954" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb1-955"><a href="#cb1-955" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"EKC Model Fit: Actual vs Fitted CO2 Per Capita for India (2000 to 2022)"</span>,</span>
+<span id="cb1-956"><a href="#cb1-956" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"R-squared = 0.991, Adjusted R-squared = 0.990, F-statistic p-value &lt; 0.001"</span>,</span>
+<span id="cb1-957"><a href="#cb1-957" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb1-958"><a href="#cb1-958" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"CO2 Emissions per Capita (Gg CO2)"</span>,</span>
+<span id="cb1-959"><a href="#cb1-959" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">""</span>,</span>
+<span id="cb1-960"><a href="#cb1-960" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: EDGAR, World Bank WDI. Authors own calculations."</span></span>
+<span id="cb1-961"><a href="#cb1-961" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-962"><a href="#cb1-962" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb1-963"><a href="#cb1-963" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb1-964"><a href="#cb1-964" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb1-965"><a href="#cb1-965" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>),</span>
+<span id="cb1-966"><a href="#cb1-966" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb1-967"><a href="#cb1-967" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb1-968"><a href="#cb1-968" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-969"><a href="#cb1-969" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-970"><a href="#cb1-970" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-971"><a href="#cb1-971" aria-hidden="true" tabindex="-1"></a><span class="fu">### Discussion</span></span>
+<span id="cb1-972"><a href="#cb1-972" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-973"><a href="#cb1-973" aria-hidden="true" tabindex="-1"></a>The EKC regression results confirm the existence of an inverted U </span>
+<span id="cb1-974"><a href="#cb1-974" aria-hidden="true" tabindex="-1"></a>shaped relationship between per capita income and CO2 emissions for </span>
+<span id="cb1-975"><a href="#cb1-975" aria-hidden="true" tabindex="-1"></a>India over the 2000 to 2022 period. The positive and statistically </span>
+<span id="cb1-976"><a href="#cb1-976" aria-hidden="true" tabindex="-1"></a>significant coefficient on GDP per capita and the negative and </span>
+<span id="cb1-977"><a href="#cb1-977" aria-hidden="true" tabindex="-1"></a>statistically significant coefficient on its squared term together </span>
+<span id="cb1-978"><a href="#cb1-978" aria-hidden="true" tabindex="-1"></a>satisfy the mathematical conditions for the EKC hypothesis, consistent </span>
+<span id="cb1-979"><a href="#cb1-979" aria-hidden="true" tabindex="-1"></a>with findings by Sinha and Shahbaz (2018) and Gopakumar et al. (2022) </span>
+<span id="cb1-980"><a href="#cb1-980" aria-hidden="true" tabindex="-1"></a>for earlier study periods.</span>
+<span id="cb1-981"><a href="#cb1-981" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-982"><a href="#cb1-982" aria-hidden="true" tabindex="-1"></a>A notable feature of the regression results is the systematic shift </span>
+<span id="cb1-983"><a href="#cb1-983" aria-hidden="true" tabindex="-1"></a>in the relationship between actual and fitted values around 2015. </span>
+<span id="cb1-984"><a href="#cb1-984" aria-hidden="true" tabindex="-1"></a>Prior to 2015, India's actual per capita CO2 emissions consistently </span>
+<span id="cb1-985"><a href="#cb1-985" aria-hidden="true" tabindex="-1"></a>exceeded the model's fitted values, indicating that emissions were </span>
+<span id="cb1-986"><a href="#cb1-986" aria-hidden="true" tabindex="-1"></a>higher than what GDP per capita alone would predict. From 2015 </span>
+<span id="cb1-987"><a href="#cb1-987" aria-hidden="true" tabindex="-1"></a>onwards, actual emissions fell below the fitted values, suggesting </span>
+<span id="cb1-988"><a href="#cb1-988" aria-hidden="true" tabindex="-1"></a>that India became cleaner than the income driven EKC trajectory </span>
+<span id="cb1-989"><a href="#cb1-989" aria-hidden="true" tabindex="-1"></a>would anticipate. This structural break coincides with two major </span>
+<span id="cb1-990"><a href="#cb1-990" aria-hidden="true" tabindex="-1"></a>policy interventions. First, the Jawaharlal Nehru National Solar </span>
+<span id="cb1-991"><a href="#cb1-991" aria-hidden="true" tabindex="-1"></a>Mission, launched in January 2010, began deploying significant </span>
+<span id="cb1-992"><a href="#cb1-992" aria-hidden="true" tabindex="-1"></a>solar capacity at scale during its Phase II from 2014 to 2017. </span>
+<span id="cb1-993"><a href="#cb1-993" aria-hidden="true" tabindex="-1"></a>Second, in 2015 India's Ministry of New and Renewable Energy adopted </span>
+<span id="cb1-994"><a href="#cb1-994" aria-hidden="true" tabindex="-1"></a>an ambitious revised target of 175 GW of total renewable energy </span>
+<span id="cb1-995"><a href="#cb1-995" aria-hidden="true" tabindex="-1"></a>capacity by 2022, comprising 100 GW of solar, 60 GW of wind, and </span>
+<span id="cb1-996"><a href="#cb1-996" aria-hidden="true" tabindex="-1"></a>15 GW from biomass and small hydro. The acceleration of renewable </span>
+<span id="cb1-997"><a href="#cb1-997" aria-hidden="true" tabindex="-1"></a>deployment following these policy commitments appears to have driven </span>
+<span id="cb1-998"><a href="#cb1-998" aria-hidden="true" tabindex="-1"></a>actual emissions below the model baseline, providing evidence that </span>
+<span id="cb1-999"><a href="#cb1-999" aria-hidden="true" tabindex="-1"></a>deliberate policy intervention, rather than income growth alone, </span>
+<span id="cb1-1000"><a href="#cb1-1000" aria-hidden="true" tabindex="-1"></a>was responsible for India's emission improvements after 2015. This </span>
+<span id="cb1-1001"><a href="#cb1-1001" aria-hidden="true" tabindex="-1"></a>finding reinforces the LMDI result that the intensity effect was </span>
+<span id="cb1-1002"><a href="#cb1-1002" aria-hidden="true" tabindex="-1"></a>strongly negative in 2015 and 2016, and together these two analyses </span>
+<span id="cb1-1003"><a href="#cb1-1003" aria-hidden="true" tabindex="-1"></a>point to the same conclusion: India's post 2015 emission moderation </span>
+<span id="cb1-1004"><a href="#cb1-1004" aria-hidden="true" tabindex="-1"></a>was policy driven, not structurally determined.</span>
+<span id="cb1-1005"><a href="#cb1-1005" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1006"><a href="#cb1-1006" aria-hidden="true" tabindex="-1"></a>The estimated income turning point of approximately USD 3,126 per </span>
+<span id="cb1-1007"><a href="#cb1-1007" aria-hidden="true" tabindex="-1"></a>capita in constant 2015 USD is particularly significant. India's GDP </span>
+<span id="cb1-1008"><a href="#cb1-1008" aria-hidden="true" tabindex="-1"></a>per capita stood at approximately USD 2,098 in 2022, meaning India </span>
+<span id="cb1-1009"><a href="#cb1-1009" aria-hidden="true" tabindex="-1"></a>remains on the rising left side of the inverted U curve and has not </span>
+<span id="cb1-1010"><a href="#cb1-1010" aria-hidden="true" tabindex="-1"></a>yet reached its emission peak. Based on India's average GDP per capita </span>
+<span id="cb1-1011"><a href="#cb1-1011" aria-hidden="true" tabindex="-1"></a>growth rate of approximately 4.5% per year observed between 2015 and </span>
+<span id="cb1-1012"><a href="#cb1-1012" aria-hidden="true" tabindex="-1"></a>2022, the model projects that India will reach its EKC turning point </span>
+<span id="cb1-1013"><a href="#cb1-1013" aria-hidden="true" tabindex="-1"></a>around 2032, assuming current growth and energy policy trajectories </span>
+<span id="cb1-1014"><a href="#cb1-1014" aria-hidden="true" tabindex="-1"></a>are maintained.</span>
+<span id="cb1-1015"><a href="#cb1-1015" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1016"><a href="#cb1-1016" aria-hidden="true" tabindex="-1"></a>This projected turning point carries important policy implications. </span>
+<span id="cb1-1017"><a href="#cb1-1017" aria-hidden="true" tabindex="-1"></a>First, it coincides closely with India's NDC commitment year of 2030, </span>
+<span id="cb1-1018"><a href="#cb1-1018" aria-hidden="true" tabindex="-1"></a>suggesting that achieving the NDC target of reducing emission intensity </span>
+<span id="cb1-1019"><a href="#cb1-1019" aria-hidden="true" tabindex="-1"></a>by 45% relative to 2005 levels may require active policy intervention </span>
+<span id="cb1-1020"><a href="#cb1-1020" aria-hidden="true" tabindex="-1"></a>rather than relying on income driven structural change alone. Second, </span>
+<span id="cb1-1021"><a href="#cb1-1021" aria-hidden="true" tabindex="-1"></a>the significant negative coefficient on renewable energy share </span>
+<span id="cb1-1022"><a href="#cb1-1022" aria-hidden="true" tabindex="-1"></a>indicates that accelerating the renewable energy transition could bring </span>
+<span id="cb1-1023"><a href="#cb1-1023" aria-hidden="true" tabindex="-1"></a>the turning point forward, potentially before 2032. Conversely, any </span>
+<span id="cb1-1024"><a href="#cb1-1024" aria-hidden="true" tabindex="-1"></a>slowdown in renewable deployment or acceleration of fossil fuel </span>
+<span id="cb1-1025"><a href="#cb1-1025" aria-hidden="true" tabindex="-1"></a>consumption could push the turning point further into the future.</span>
+<span id="cb1-1026"><a href="#cb1-1026" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1027"><a href="#cb1-1027" aria-hidden="true" tabindex="-1"></a>The exceptionally high R-squared of 0.9915 confirms that the three </span>
+<span id="cb1-1028"><a href="#cb1-1028" aria-hidden="true" tabindex="-1"></a>variable model captures India's emission dynamics with very high </span>
+<span id="cb1-1029"><a href="#cb1-1029" aria-hidden="true" tabindex="-1"></a>precision. However this should be interpreted with appropriate caution </span>
+<span id="cb1-1030"><a href="#cb1-1030" aria-hidden="true" tabindex="-1"></a>given the relatively small sample size of 23 annual observations. The </span>
+<span id="cb1-1031"><a href="#cb1-1031" aria-hidden="true" tabindex="-1"></a>model is best understood as a characterisation of India's emission </span>
+<span id="cb1-1032"><a href="#cb1-1032" aria-hidden="true" tabindex="-1"></a>trajectory over the specific study period rather than a universal </span>
+<span id="cb1-1033"><a href="#cb1-1033" aria-hidden="true" tabindex="-1"></a>predictive tool.</span>
+<span id="cb1-1034"><a href="#cb1-1034" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-1035"><a href="#cb1-1035" aria-hidden="true" tabindex="-1"></a>It is also important to note that the EKC turning point estimated here </span>
+<span id="cb1-1036"><a href="#cb1-1036" aria-hidden="true" tabindex="-1"></a>is higher than the USD 2,938 per capita estimate reported by Sinha and </span>
+<span id="cb1-1037"><a href="#cb1-1037" aria-hidden="true" tabindex="-1"></a>Shahbaz (2018) for an earlier period ending in 2014. This upward </span>
+<span id="cb1-1038"><a href="#cb1-1038" aria-hidden="true" tabindex="-1"></a>revision may reflect the continued expansion of coal based capacity </span>
+<span id="cb1-1039"><a href="#cb1-1039" aria-hidden="true" tabindex="-1"></a>during 2015 to 2022 that has sustained emission pressure at higher </span>
+<span id="cb1-1040"><a href="#cb1-1040" aria-hidden="true" tabindex="-1"></a>income levels than previously anticipated, and underscores the </span>
+<span id="cb1-1041"><a href="#cb1-1041" aria-hidden="true" tabindex="-1"></a>importance of updating EKC estimates as new data become available.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

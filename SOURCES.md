@@ -42,3 +42,12 @@
 
 14. World Economic Forum — India GDP ranking 2022
     https://www.weforum.org
+    
+15. IEA — Jawaharlal Nehru National Solar Mission (Phase I, II and III)
+    https://www.iea.org/policies/4916-jawaharlal-nehru-national-solar-mission-phase-i-ii-and-iii
+
+16. IEA — India 175 GW Renewable Energy Target for 2022
+    https://www.iea.org/policies/6466-india-175-gw-renewable-energy-target-for-2022
+
+17. Wikipedia — National Solar Mission
+    https://en.wikipedia.org/wiki/National_Solar_Mission

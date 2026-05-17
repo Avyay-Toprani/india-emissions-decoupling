@@ -873,17 +873,35 @@ ggplot() +
   geom_point(data = ekc_data,
              aes(x = gdp_pc, y = co2_pc),
              color = "#e74c3c", size = 2.5) +
-  geom_text(data = ekc_data %>%
-              filter(year %in% c(2000, 2005, 2010, 2015, 2019, 2022)),
-            aes(x = gdp_pc, y = co2_pc, label = year),
-            vjust = -0.8, size = 3, color = "#e74c3c") +
+  geom_segment(data = ekc_data %>%
+               filter(year %in% c(2000, 2005, 2010, 2015, 2019, 2022)) %>%
+               mutate(
+                 nudge_y = case_when(
+                   year %in% c(2000, 2005, 2010, 2022) ~ 0.00014,
+                   year %in% c(2015, 2019) ~ -0.00014
+                 )
+               ),
+             aes(x = gdp_pc, y = co2_pc + nudge_y * 0.85,
+                 xend = gdp_pc, yend = co2_pc + nudge_y * 0.15),
+             color = "gray30", linewidth = 0.5,
+             arrow = arrow(length = unit(0.008, "npc"), type = "closed")) +
+geom_text(data = ekc_data %>%
+            filter(year %in% c(2000, 2005, 2010, 2015, 2019, 2022)) %>%
+            mutate(
+              nudge_y = case_when(
+                year %in% c(2000, 2005, 2010, 2022) ~ 0.00014,
+                year %in% c(2015, 2019) ~ -0.00014
+              )
+            ),
+          aes(x = gdp_pc, y = co2_pc + nudge_y, label = year),
+          size = 3, color = "#e74c3c") +
   geom_vline(xintercept = turning_point,
              linetype = "dashed", color = "#f39c12", linewidth = 0.8) +
-  annotate("text", x = turning_point + 20,
-           y = max(gdp_range$co2_pc_fitted) * 0.92,
+  annotate("text", x = turning_point - 80,
+           y = max(gdp_range$co2_pc_fitted) * 0.85,
            label = paste0("Turning point\nUSD ", round(turning_point, 0),
                           "\n(~", turning_year, ")"),
-           hjust = 0, size = 3.2, color = "#f39c12") +
+           hjust = 1, size = 3.2, color = "#f39c12") +
   scale_y_continuous(labels = scales::comma) +
   scale_x_continuous(labels = scales::comma) +
   labs(
@@ -944,6 +962,30 @@ statistically significant coefficient on its squared term together
 satisfy the mathematical conditions for the EKC hypothesis, consistent 
 with findings by Sinha and Shahbaz (2018) and Gopakumar et al. (2022) 
 for earlier study periods.
+
+A notable feature of the regression results is the systematic shift 
+in the relationship between actual and fitted values around 2015. 
+Prior to 2015, India's actual per capita CO2 emissions consistently 
+exceeded the model's fitted values, indicating that emissions were 
+higher than what GDP per capita alone would predict. From 2015 
+onwards, actual emissions fell below the fitted values, suggesting 
+that India became cleaner than the income driven EKC trajectory 
+would anticipate. This structural break coincides with two major 
+policy interventions. First, the Jawaharlal Nehru National Solar 
+Mission, launched in January 2010, began deploying significant 
+solar capacity at scale during its Phase II from 2014 to 2017. 
+Second, in 2015 India's Ministry of New and Renewable Energy adopted 
+an ambitious revised target of 175 GW of total renewable energy 
+capacity by 2022, comprising 100 GW of solar, 60 GW of wind, and 
+15 GW from biomass and small hydro. The acceleration of renewable 
+deployment following these policy commitments appears to have driven 
+actual emissions below the model baseline, providing evidence that 
+deliberate policy intervention, rather than income growth alone, 
+was responsible for India's emission improvements after 2015. This 
+finding reinforces the LMDI result that the intensity effect was 
+strongly negative in 2015 and 2016, and together these two analyses 
+point to the same conclusion: India's post 2015 emission moderation 
+was policy driven, not structurally determined.
 
 The estimated income turning point of approximately USD 3,126 per 
 capita in constant 2015 USD is particularly significant. India's GDP 
