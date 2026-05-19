@@ -13,8 +13,8 @@
 4. BP Statistical Review of World Energy — Underlying source for OWID
    https://www.bp.com/en/global/corporate/energy-economics/statistical-review-of-world-energy.html
 
-5. Central Electricity Authority of India — State electricity & renewables
-   https://cea.nic.in
+5. Ember — India Electricity Data Explorer (state level CO2 intensity and generation)
+    https://ember-energy.org/data/india-electricity-data-explorer/
 
 6. RBI KLEMS Database — Sectoral GDP value added
    https://rbi.org.in
@@ -51,3 +51,6 @@
 
 17. Wikipedia — National Solar Mission
     https://en.wikipedia.org/wiki/National_Solar_Mission
+    
+18. GADM — Global Administrative Areas, India State Boundaries (Level 1), Version 4.1
+    https://gadm.org/download_country.html

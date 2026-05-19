@@ -115,3 +115,10 @@ tmap_save(india_map,
           width = 10,
           height = 8,
           dpi = 300)
+
+# ============================================================
+# Save processed spatial data
+# ============================================================
+
+state_intensity_clean %>%
+  write_csv("data/processed/state_co2_intensity.csv")

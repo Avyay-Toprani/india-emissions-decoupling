@@ -284,9 +284,12 @@ GDP per capita data in constant 2015 USD are sourced from the World
 Bank World Development Indicators. Energy consumption data by fuel type 
 are obtained from Our World in Data, which compiles and harmonises 
 energy statistics from the BP Statistical Review of World Energy. State 
-level electricity generation data are obtained from the Central 
-Electricity Authority of India and are used in the spatial analysis 
-component of this study. 
+level power sector CO2 intensity and electricity generation data 
+are obtained from Ember's India Electricity Data Explorer, which 
+compiles and harmonises state level data from the Central Electricity 
+Authority of India and the Ministry of New and Renewable Energy. State 
+boundary geometries for spatial analysis are sourced from the Global 
+Administrative Areas (GADM) database, version 4.1. 
 
 Throughout this study, emissions are reported in Gigagrams of CO2 
 (Gg CO2), the native unit used by the EDGAR database. One Gigagram 
@@ -296,9 +299,8 @@ For reference, India's total CO2 emissions in 2022 were approximately
 is retained throughout to avoid conversion errors and ensure 
 reproducibility against the source data.
 
-The study period covers 2000 to 2022, 
-representing the most complete and consistent data available across all 
-sources at the time of writing.
+The study period covers 2000 to 2022,representing the most complete and 
+consistent data available across all sources at the time of writing.
 
 # Results and Discussion
 
@@ -1023,3 +1025,150 @@ revision may reflect the continued expansion of coal based capacity
 during 2015 to 2022 that has sustained emission pressure at higher 
 income levels than previously anticipated, and underscores the 
 importance of updating EKC estimates as new data become available.
+
+
+## Spatial Analysis
+
+### Results
+
+The spatial analysis examines the geographic distribution of power 
+sector CO2 intensity across India's states and union territories for 
+2022, measured in grams of CO2 per kilowatt hour (gCO2/kWh) of 
+electricity generated. CO2 intensity reflects how carbon intensive 
+each state's electricity generation mix is, with higher values 
+indicating greater dependence on fossil fuels, particularly coal, and 
+lower values reflecting a cleaner generation mix including renewables 
+and hydro. Note that Lakshadweep is not visible at this map scale due 
+to its geographic size as a small island territory.
+
+```{r}
+#| label: fig-spatial
+#| fig-cap: "Power Sector CO2 Intensity by State, India (2022). Source: Ember India Electricity Data Explorer."
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-width: 10
+#| fig-height: 8
+
+library(sf)
+library(tmap)
+library(tidyverse)
+
+# Load shapefile
+india_states <- st_read(here::here("data/raw/shapefile/gadm41_IND_1.shp"),
+                        quiet = TRUE)
+
+# Load processed state intensity data
+state_intensity_clean <- read_csv(here::here("data/processed/state_co2_intensity.csv"),
+                                   show_col_types = FALSE)
+
+# Merge
+india_map_data <- india_states %>%
+  left_join(state_intensity_clean, by = c("NAME_1" = "state"))
+
+# Plot
+tmap_mode("plot")
+
+tm_shape(india_map_data) +
+  tm_polygons(
+    col = "co2_intensity",
+    title = "CO2 Intensity\n(gCO2/kWh)",
+    palette = "YlOrRd",
+    style = "quantile",
+    n = 5,
+    border.col = "white",
+    border.alpha = 0.5,
+    textNA = "No Data",
+    colorNA = "gray90"
+  ) +
+  tm_layout(
+    main.title = "Power Sector CO2 Intensity by State, India (2022)",
+    main.title.size = 1,
+    main.title.fontface = "bold",
+    legend.outside = TRUE,
+    legend.outside.position = "right",
+    frame = FALSE
+  ) +
+  tm_compass(position = c("left", "bottom")) +
+  tm_scalebar(position = c("left", "bottom"))
+```
+
+```{r}
+#| label: tbl-spatial-high
+#| tbl-cap: "Highest Power Sector CO2 Intensity States, India (2022)"
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(knitr)
+
+state_data <- read_csv(here::here("data/processed/state_co2_intensity.csv"),
+                       show_col_types = FALSE)
+
+state_data %>%
+  arrange(desc(co2_intensity)) %>%
+  slice(1:5) %>%
+  mutate(Rank = row_number()) %>%
+  select(Rank, State = state, `CO2 Intensity (gCO2/kWh)` = co2_intensity) %>%
+  kable(align = "c")
+```
+
+```{r}
+#| label: tbl-spatial-low
+#| tbl-cap: "Lowest Power Sector CO2 Intensity States, India (2022)"
+#| echo: false
+#| warning: false
+#| message: false
+
+state_data %>%
+  arrange(co2_intensity) %>%
+  slice(1:5) %>%
+  mutate(Rank = row_number()) %>%
+  select(Rank, State = state, `CO2 Intensity (gCO2/kWh)` = co2_intensity) %>%
+  kable(align = "c")
+```
+
+### Discussion
+
+Figure 6 reveals significant geographic heterogeneity in power sector 
+CO2 intensity across India's states in 2022. A clear spatial pattern 
+emerges, with the most carbon intensive states concentrated in the 
+central and eastern regions of the country. As shown in Table 4, 
+Bihar, Jharkhand, and Chhattisgarh record the highest CO2 intensity 
+values, all exceeding 800 gCO2/kWh, reflecting their large coal 
+reserves and generation mixes dominated by thermal power plants. 
+Haryana, West Bengal, and Uttar Pradesh similarly exceed 760 gCO2/kWh, 
+driven by heavy dependence on coal with limited renewable capacity 
+relative to their electricity demand.
+
+In contrast, Table 5 shows that the five lowest intensity states, 
+Jammu and Kashmir, Himachal Pradesh, Arunachal Pradesh, Manipur, and 
+Uttarakhand, all record values below 28 gCO2/kWh. These are hill and 
+mountain states in northern and northeastern India where geography 
+favours hydroelectric generation over thermal power. Their low 
+intensity values reflect hydro dominated grids rather than renewable 
+energy policy, distinguishing them from southern states like Karnataka 
+and Tamil Nadu where relatively lower intensity is increasingly driven 
+by solar and wind investments. Andhra Pradesh, while geographically 
+southern, shows a moderate to high intensity value of approximately 
+621 gCO2/kWh, reflecting its mixed generation portfolio combining 
+thermal capacity with growing renewables.
+
+This geographic variation has important implications for India's 
+national emission trajectory. The persistence of high emission 
+intensity in coal dependent states suggests that national average 
+improvements in emission intensity, as captured in the LMDI 
+decomposition in Section 4.2, mask significant subnational 
+heterogeneity. Progress toward decoupling at the national level is 
+being driven disproportionately by states with favourable renewable 
+or hydro resources, while coal dependent states continue to face 
+structural challenges in transitioning their generation mix.
+
+These findings suggest that a uniform national policy approach to 
+emission intensity reduction may be insufficient. Targeted 
+interventions for high intensity states, including accelerated 
+renewable capacity additions, coal plant retirement schedules, and 
+inter-state clean energy trading, may be necessary to achieve 
+equitable and sustained decoupling across India's diverse energy 
+landscape.
