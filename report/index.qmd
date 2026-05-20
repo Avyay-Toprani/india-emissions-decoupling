@@ -4,6 +4,44 @@ author: "Avyay Toprani"
 date: today
 ---
 
+::: {.callout-note appearance="simple" icon=false}
+## Abstract
+
+This study investigates whether India's economic growth is genuinely 
+decoupling from its carbon emissions over the period 2000 to 2022, 
+using three complementary analytical frameworks. The Tapio decoupling 
+index, Log Mean Divisia Index (LMDI) decomposition, and Environmental 
+Kuznets Curve (EKC) regression are applied to national level emission 
+and GDP data, supplemented by a spatial analysis of state level power 
+sector CO2 intensity for 2022. The Tapio analysis reveals an 
+inconsistent decoupling trajectory, with India oscillating between 
+weak decoupling and expansive negative coupling across the study 
+period, and achieving strong decoupling in only one year. The LMDI 
+decomposition finds that the structure effect, representing the 
+contribution of India's economic shift toward services, is negligible 
+throughout the study period, directly challenging the narrative that 
+structural economic change has driven emission reductions. The 
+intensity effect emerges as the dominant moderating force, with 
+strongly negative values in 2015 and 2016 coinciding with accelerated 
+renewable energy deployment. The EKC regression confirms the inverted 
+U shaped relationship between per capita income and emissions, with 
+an estimated turning point at approximately USD 3,126 per capita and 
+a projected peak emission year of around 2032 under current growth 
+trajectories. The spatial analysis reveals significant subnational 
+heterogeneity, with coal dependent states in central and eastern India 
+recording power sector CO2 intensity values exceeding 800 gCO2/kWh, 
+contrasting sharply with hydroelectric and renewable rich states 
+below 28 gCO2/kWh. Collectively the findings suggest that India's 
+decoupling progress is real but fragile, policy dependent, and 
+geographically uneven, with renewable energy policy rather than 
+structural economic change identified as the critical driver of 
+emission moderation.
+
+**Keywords:** decoupling, emissions, India, LMDI decomposition, 
+Environmental Kuznets Curve, Tapio index, spatial analysis, 
+renewable energy
+:::
+
 # Introduction
 
 Economic growth and carbon emissions have historically moved together. 
@@ -1172,3 +1210,115 @@ renewable capacity additions, coal plant retirement schedules, and
 inter-state clean energy trading, may be necessary to achieve 
 equitable and sustained decoupling across India's diverse energy 
 landscape.
+
+# Limitations
+
+This study is subject to several limitations that should be considered 
+when interpreting the findings. First, the LMDI decomposition employed 
+in this study combines the energy intensity and emission factor effects 
+into a single composite intensity effect due to the unavailability of 
+consistent sectoral energy consumption data for India at the required 
+granularity across the full study period. While this is a well 
+established approach in the literature, it prevents the separate 
+identification of efficiency improvements from fuel switching within 
+each sector.
+
+Second, the EKC regression is estimated using 23 annual observations, 
+which represents a relatively small sample size for time series 
+analysis. While the model fit is exceptionally strong, the turning 
+point estimate and projected year of peak emissions should be 
+interpreted as indicative rather than precise forecasts. The model 
+does not account for potential structural breaks, policy shocks, or 
+global energy price changes that could materially alter India's 
+emission trajectory.
+
+Third, the Tapio decoupling index is sensitive to year on year 
+fluctuations in both GDP and emissions, which can produce misleading 
+classifications in years affected by external shocks. The 2020 
+recessive coupling result, driven by the COVID-19 pandemic, 
+illustrates this limitation clearly and underscores the importance 
+of interpreting annual decoupling classifications in the context of 
+broader multi-year trends.
+
+Fourth, the spatial analysis is limited to the power sector and to 
+a single year (2022) due to data availability constraints. It does 
+not capture emission intensity trends over time at the state level, 
+nor does it account for emissions from other sectors such as industry 
+or transport at the subnational level. Future research could extend 
+this analysis using a panel of state level data across multiple years.
+
+Finally, all emission data are drawn from the EDGAR database, which 
+relies on activity data and emission factors that carry their own 
+measurement uncertainty. While EDGAR is the most comprehensive and 
+widely used global emission inventory, users should be aware that 
+estimates for developing countries may carry greater uncertainty than 
+those for developed economies with more comprehensive monitoring 
+infrastructure.
+
+# Conclusion
+
+This study set out to investigate whether India's economic growth is 
+genuinely decoupling from its carbon emissions, or whether the 
+appearance of progress masks deeper structural challenges. Using three 
+complementary analytical frameworks applied to the period 2000 to 
+2022, the findings collectively suggest that India's decoupling 
+progress is real but fragile, policy dependent, and geographically 
+uneven.
+
+The Tapio decoupling analysis reveals that India has not achieved 
+sustained decoupling over the study period. While episodes of weak 
+decoupling were observed, particularly in the early 2000s and mid 
+2010s, the overall trajectory is one of inconsistency, with emissions 
+growing faster than GDP in multiple years. The single instance of 
+strong decoupling in 2019 represents a promising signal but not a 
+structural shift, as the post pandemic recovery in 2021 and 2022 
+returned India to expansive coupling.
+
+The LMDI decomposition provides the most important finding of this 
+study. The structure effect, representing the contribution of 
+India's sectoral economic shift toward services, is negligible across 
+the entire study period. This directly challenges the narrative that 
+India's transition to a service dominated economy has been a 
+meaningful driver of emission reductions. Instead, the intensity 
+effect, driven by changes in energy efficiency and the energy mix, 
+emerges as the primary mechanism through which India has moderated 
+its emissions. The strongly negative intensity values observed in 
+2015 and 2016 coincide with accelerated renewable energy deployment 
+following major policy commitments, confirming that deliberate 
+intervention rather than structural economic change has been 
+responsible for India's most significant emission improvements.
+
+The EKC regression confirms the existence of an inverted U shaped 
+relationship between per capita income and emissions for India, with 
+an estimated turning point at approximately USD 3,126 per capita in 
+constant 2015 USD. At India's 2022 income level of USD 2,098 per 
+capita, the country remains on the rising side of the curve. Based 
+on recent growth trends, the model projects India will reach its 
+emission peak around 2032, though this projection is sensitive to 
+the pace of renewable energy deployment. The finding that actual 
+emissions fell below the model baseline after 2015 provides further 
+evidence that policy intervention can accelerate the transition beyond 
+what income growth alone would predict.
+
+The spatial analysis adds a subnational dimension to these findings, 
+revealing that national level improvements in emission intensity mask 
+significant geographic heterogeneity. Coal dependent states in 
+central and eastern India, including Bihar, Jharkhand, and 
+Chhattisgarh, exhibit power sector CO2 intensity values exceeding 
+800 gCO2/kWh, while hydroelectric and renewable rich states in the 
+north and northeast record values below 28 gCO2/kWh. This disparity 
+suggests that India's decoupling progress is being driven by a subset 
+of states with favourable resource endowments, while high intensity 
+states face structural barriers to transition.
+
+Taken together, these findings carry important implications for 
+India's climate policy. The negligible structure effect suggests that 
+economic restructuring alone will not deliver the emission reductions 
+required under India's NDC commitments. The intensity effect and EKC 
+results together point to renewable energy policy as the critical 
+lever, with the post 2015 acceleration in solar and wind deployment 
+demonstrably bending India's emission curve below its income driven 
+baseline. Sustaining and accelerating this policy momentum, 
+particularly in high intensity states, will be essential for India 
+to achieve genuine and sustained decoupling before its projected 
+2032 emission peak.
