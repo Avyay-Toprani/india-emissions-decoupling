@@ -1,6 +1,8 @@
 ---
 title: "Decoupling or Illusion? Analysing Emission Intensity, Economic Growth, and Sectoral Energy Transitions in India (2000–2022)"
-author: "Avyay Toprani"
+author: 
+  - "Avyay Toprani"
+  - "Ayaan Jain"
 date: today
 ---
 
